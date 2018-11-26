@@ -9,12 +9,20 @@ import {DocumentService} from './document.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BasicAuthInterceptor } from './auth-interceptor';
 import { MaterialModule } from './material/material.module';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import { PdfPopoverComponent } from './pdf-popover/pdf-popover.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { DocumentDetailsComponent } from './document-details/document-details.component';
+import { FilterComponent } from './filter/filter.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DocumentlistComponent
+    DocumentlistComponent,
+    PdfPopoverComponent,
+    DocumentDetailsComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +30,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     HttpClientModule,
     MaterialModule,
-    NgbModule
+    NgbModule,
+    NgbModalModule,
+    PdfViewerModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  entryComponents: [
+    DocumentDetailsComponent
   ],
   providers: [
     DocumentService,

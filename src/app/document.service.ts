@@ -1,18 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Document } from './document';
+import { EnvironmentService } from './environment.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  constructor(private http: HttpClient) {};
+  constructor(private http: HttpClient,
+    private env: EnvironmentService) {};
 
-  public getDocuments = (): Observable<Document[]> => {
-    let res = this.http.get("http://192.168.1.31:8000/api/documents/", {observe: "response"});
+  public getDocuments = (filter?): Observable<Document[]> => {
+    let params = new HttpParams()
+    if (filter) {
+      for (let field of Object.keys(filter)) {
+        // filter defaults to _contains_
+        params = params.append(field + "__contains", filter[field]);
+      }
+    }
+    let res = this.http.get(this.env.getBaseUrl() + "/api/documents/", 
+      {observe: "response", params: params});
     return res.pipe(map(
       result => {
         return result.body['results'] as Document[]

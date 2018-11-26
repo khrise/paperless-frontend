@@ -1,0 +1,61 @@
+<!--<div class="modal-header">
+    <h4 class="modal-title">{{doc.title}}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+      <mat-tab-group>
+          <mat-tab label="Preview">
+              <img src="{{baseUrl + doc.thumbnail_url}}">
+          </mat-tab>
+          <mat-tab label="Pdf">
+              <app-pdf-popover [doc]="doc"></app-pdf-popover>
+          </mat-tab>
+          <mat-tab label="Text">
+            <pre>{{doc.content}}</pre>
+          </mat-tab>
+        </mat-tab-group>
+</div>
+<p><a [href]="baseUrl + doc.download_url">PDF Download</a></p>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>-->
+
+  <div mat-dialog-title *ngIf="doc">
+    <div class="container">
+      <div class="row mat-body">
+        <span class="col-md-4 text-sm-left">
+          <a mat-icon-button (click)="navLeft()" *ngIf="index > 0">
+            <i class="material-icons">arrow_back</i>
+          </a>
+        </span>
+        <span class="col-md-4 text-sm-center">
+          {{doc.title}}
+        </span>
+        <span class="col-md-4 text-sm-right">
+          <a mat-icon-button (click)="navRight()" *ngIf="index < data.documents.length -1 ">
+            <i class="material-icons">arrow_forward</i>
+          </a>
+        </span>
+      </div>
+    </div>
+    
+  </div>
+<div mat-dialog-content *ngIf="doc"> 
+    <mat-tab-group>
+        <mat-tab label="Preview">
+            <img class="w-100 border border-primary" src="{{baseUrl + doc.thumbnail_url}}">
+        </mat-tab>
+        <mat-tab label="Pdf">
+            <app-pdf-popover [doc]="doc"></app-pdf-popover>
+        </mat-tab>
+        <mat-tab label="Text">
+          <pre>{{doc.content}}</pre>
+        </mat-tab>
+      </mat-tab-group>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button cdkFocusInitial>Ok</button>
+</div>
