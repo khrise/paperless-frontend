@@ -1,13 +1,23 @@
-<h4>Paperless</h4>
-<app-filter (onFilterChanged)="filterChanged($event)"></app-filter>
-  
-<mat-grid-list cols="5" rowHeight="250" gutterSize="10px">
+<div style="position: fixed; top: 80px; left: 10px">
+  <button mat-icon-button (click)="menuToggle()">
+      <i class="material-icons">filter_list</i>
+    </button>
+
+</div>
+
+<!--<div class="col">
+    <app-filter (onFilterChanged)="filterChanged($event)"></app-filter>
+  </div>-->
+  <!--style="position: absolute; top: 50px; left: 10px"-->
+<mat-grid-list class="m-t-1" cols="4" rowHeight="250" gutterSize="10px">
     <mat-grid-tile *ngFor="let doc of list">
       <mat-grid-tile-header>{{ doc.title }}</mat-grid-tile-header>
       
       <div class="m-1 h-100 w-100" 
       [style.backgroundImage]="'url('+ baseUrl + doc.thumbnail_url +')'"
-      [style.backgroundRepeat]="'no-repeat'">
+      [style.backgroundRepeat]="'no-repeat'"
+      [style.backgroundPositionX]="'-35px'"
+      [style.backgroundPositionY]="'35px'">
         <!--<img src="{{baseUrl + doc.thumbnail_url}}"/>-->
       </div>
       <mat-grid-tile-footer>

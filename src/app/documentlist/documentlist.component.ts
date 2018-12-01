@@ -5,6 +5,8 @@ import { PdfPopoverComponent } from '../pdf-popover/pdf-popover.component';
 import { EnvironmentService } from '../environment.service';
 import { DocumentDetailsComponent } from '../document-details/document-details.component';
 import { MatDialog } from '@angular/material';
+import { EventBusService } from '../event-bus.service';
+import { DetailsDialogComponent } from '../details-dialog/details-dialog.component';
 
 
 @Component({
@@ -23,12 +25,16 @@ export class DocumentlistComponent implements OnInit {
   constructor(private service: DocumentService,
     private modalService: NgbModal,
     private dialog: MatDialog,
-    private env: EnvironmentService) {
+    private env: EnvironmentService, private eventBus: EventBusService) {
       this.baseUrl = env.getBaseUrl();
     }
 
   ngOnInit() {
     this.fetchDocuments();
+  }
+
+  menuToggle = () => {
+    this.eventBus.publish("SIDE_MENU")
   }
 
   fetchDocuments = (filter?) => {
@@ -44,7 +50,7 @@ export class DocumentlistComponent implements OnInit {
     /*onst modalRef = this.modalService.open(DocumentDetailsComponent, 
       {backdrop: true, size: 'lg'});
     modalRef.componentInstance.doc = doc;*/
-    this.dialog.open(DocumentDetailsComponent, {
+    this.dialog.open(DetailsDialogComponent, {
       width: '90%',
       height: '90%',
       hasBackdrop: true,

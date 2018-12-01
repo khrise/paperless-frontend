@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { debounce, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { debounce, distinctUntilChanged, debounceTime, filter } from 'rxjs/operators';
 import { timer, Subject } from 'rxjs';
 
 @Component({
@@ -24,9 +24,10 @@ export class FilterComponent implements OnInit {
 
     this.filterForm.valueChanges
       .pipe(debounceTime(300))
+      .pipe(filter(elem => JSON.stringify(elem, replaceFunc) !== "{}"))
       .pipe(distinctUntilChanged((a, b) => {
-        let sa = JSON.stringify(a, (key, value) => !!value ? value : undefined);
-        let sb = JSON.stringify(b, (key, value) => !!value ? value : undefined);
+        let sa = JSON.stringify(a, replaceFunc);
+        let sb = JSON.stringify(b, replaceFunc);
         return sa === sb;
       }))
       .subscribe(
@@ -45,4 +46,9 @@ export class FilterComponent implements OnInit {
     this.filter.push({field: fieldName, value: ""});
     this.filterForm.addControl(fieldName, new FormControl());
   }  
+}
+
+const replaceFunc = (key, value): boolean => {
+  return !!value ? value : undefined
+
 }

@@ -1,0 +1,29 @@
+<div class="h-100 container m-t-1">
+  <!--<form [formGroup]="form">-->
+    <div class="row">
+      <div class="col-sm-6">
+        <mat-form-field>
+          <input #title matInput [disabled]="!editing" placeholder="Title" value="{{doc.title}}">
+        </mat-form-field>
+      </div>
+      <div class="col-sm-4">
+        <button *ngIf="editedField?.name!=='title'" mat-icon-button (click)="edit('title', title)"><i class="material-icons">edit</i></button>
+        <button *ngIf="editedField?.name==='title'" mat-icon-button (click)="cancelEdit('title', title)"><i class="material-icons">cancel</i></button>
+        <button *ngIf="editedField?.name==='title'" mat-icon-button (click)="saveEdit('title', title)"><i class="material-icons">save</i></button>
+      </div>
+    </div>
+
+    <div class="row form-group" >
+      <div class="col-md-2">
+        <label for="title" class="col-form-label">Title: </label>
+      </div>
+      <div class="col-md-6">
+        <input [disabled]="!editing" id="title" class="form-control" value="{{doc.title}}" />
+      </div>
+    </div>
+
+  <!--</form>-->
+
+
+
+</div>

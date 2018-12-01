@@ -1,0 +1,10 @@
+@import "colors.scss";
+
+.nav-link {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#breadcrumbNav {
+    background-color: $secondary; // same as rgba(121, 174, 200, .8)
+}

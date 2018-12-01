@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from './auth.service';
+import { MatSidenav } from '@angular/material';
+import { EventBusService } from './event-bus.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +11,24 @@ import { AuthService } from './auth.service';
 export class AppComponent implements OnInit{
   title = 'paperless-frontend';
 
-  constructor(private authService: AuthService) {
+  @ViewChild(MatSidenav) sidenav: MatSidenav;
+
+  constructor(private bus: EventBusService) {
+    
   }
 
   ngOnInit() {
-    //this.authService.login("paperless", "RcDJMJrSXoeivjKINnfm");
+    //this.sidenav.close();
+    this.bus.on("SIDE_MENU").subscribe(
+      event => {
+        this.sidenav.open().then(result => {
+          let a = result;
+        });
+      }
+    );
   }
+  toggle = () => {
+    this.sidenav.toggle()
+  }
+
 }

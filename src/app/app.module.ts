@@ -15,6 +15,12 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { FilterComponent } from './filter/filter.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DocumentDataComponent } from './document-data/document-data.component';
+import { PaperlessComponent } from './paperless/paperless.component';
+import { HeaderComponent } from './header/header.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { HomeComponent } from './home/home.component';
+import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +28,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     DocumentlistComponent,
     PdfPopoverComponent,
     DocumentDetailsComponent,
-    FilterComponent
+    FilterComponent,
+    DocumentDataComponent,
+    PaperlessComponent,
+    HeaderComponent,
+    SidenavComponent,
+    HomeComponent,
+    DetailsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +49,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   entryComponents: [
-    DocumentDetailsComponent
+    DetailsDialogComponent
   ],
   providers: [
     DocumentService,
