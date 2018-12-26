@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a [routerLink]="['/correspondents']" class="nav-link js-scroll-trigger">Correspondents</a>
           </li>
+          <li class="nav-item">
+            <a [routerLink]="['/settings']" class="nav-link js-scroll-trigger"><i class="material-icons">settings</i></a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -27,7 +30,7 @@
     <nav class="navbar navbar-expand-sm" id="breadcrumbNav">
       <ul class="navbar-nav ">
         <li class="nav-item nav-link" *ngFor="let elem of breadcrumbs | async">
-          <a [routerLink]="[elem.url, elem.params]">{{elem.label}}</a>
+          <a [routerLink]="[elem.url]">{{elem.label}}</a>
         </li>
       </ul>
     </nav>

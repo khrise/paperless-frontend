@@ -1,6 +1,7 @@
 <body id="page-top">
-  <mat-sidenav-container [hasBackdrop]="true">
-      <mat-sidenav #sidenav mode="over">
+  <app-header></app-header>
+  <mat-sidenav-container [hasBackdrop]="false">
+      <mat-sidenav #sidenav mode="push" fixedInViewport="true">
           <app-sidenav>
             </app-sidenav>
         
@@ -8,9 +9,8 @@
     
 
     <mat-sidenav-content>
-      <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
-      <app-header></app-header>
-      <div class="container" id="content">
+      <div id="content">
+        <div class="push" style="height: 90px;"></div>
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>

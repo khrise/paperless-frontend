@@ -28,6 +28,11 @@ export class HeaderComponent implements OnInit {
     const path = route.routeConfig ? route.routeConfig.path : '';
     
     //In the routeConfig the complete path is not available, 
+
+    let params = route.params.toPromise();
+    params.then(res => {
+      let a = res
+    })
     //so we rebuild it each time
     const nextUrl = `${url}${path}/`;
     const breadcrumb = {

@@ -21,6 +21,13 @@ import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { HomeComponent } from './home/home.component';
 import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
+import { RawTextComponent } from './raw-text/raw-text.component';
+import { ResolvePipe } from './resolve.pipe';
+import { ResolveConcatPipe } from './resolve-concat.pipe';
+import { MovableBackgroundComponent } from './movable-background/movable-background.component';
+import { TagListComponent } from './tag-list/tag-list.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SettingsProviderService } from './settings-provider.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +41,13 @@ import { DetailsDialogComponent } from './details-dialog/details-dialog.componen
     HeaderComponent,
     SidenavComponent,
     HomeComponent,
-    DetailsDialogComponent
+    DetailsDialogComponent,
+    RawTextComponent,
+    ResolvePipe,
+    ResolveConcatPipe,
+    MovableBackgroundComponent,
+    TagListComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +66,7 @@ import { DetailsDialogComponent } from './details-dialog/details-dialog.componen
   ],
   providers: [
     DocumentService,
+    SettingsProviderService,
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

@@ -11,7 +11,7 @@ import { EventBusService } from './event-bus.service';
 export class AppComponent implements OnInit{
   title = 'paperless-frontend';
 
-  @ViewChild(MatSidenav) sidenav: MatSidenav;
+  @ViewChild('sidenav') sidenav: MatSidenav;
 
   constructor(private bus: EventBusService) {
     
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
     //this.sidenav.close();
     this.bus.on("SIDE_MENU").subscribe(
       event => {
-        this.sidenav.open().then(result => {
+        this.sidenav.toggle().then(result => {
           let a = result;
         });
       }

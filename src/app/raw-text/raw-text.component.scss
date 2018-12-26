@@ -1,0 +1,9 @@
+@import 'colors.scss';
+
+div.wrapped {
+    white-space: pre-wrap;
+}
+
+a.active {
+    background-color: $secondary;
+}

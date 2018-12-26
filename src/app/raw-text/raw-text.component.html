@@ -1,0 +1,4 @@
+<a mat-button (click)="switchMode('pre')" [ngClass]="{'active': mode == 'pre'}">pre</a>
+<a mat-button (click)="switchMode('wrap')" [ngClass]="{'active': mode == 'wrap'}">wrap</a>
+<div class="wrapped" *ngIf="mode == 'wrap'">{{doc?.content}}</div>
+<pre *ngIf="mode == 'pre'">{{doc?.content}}</pre>

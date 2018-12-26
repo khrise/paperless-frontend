@@ -1,0 +1,24 @@
+<div #child class="outer-container" 
+style="position: relative; max-width: 500px; height: 500px; overflow: hidden;">
+
+  <div style="width: 97%; height: 97%; top: 4%; position: relative; overflow: hidden; cursor: move;">
+    <div class="pattern-background-image" style="left: 0px; top: 0px; width: 100%; height: 100%; position: absolute; background-repeat: repeat; background-position: 0px 0px; background-image: url(&quot;https://cookieshq.co.uk/images/2016/06/28/background-image.jpg&quot;);"
+    [style.backgroundImage]="'url('+ baseUrl + url +')'"
+    [style.backgroundRepeat]="'no-repeat'"
+    >
+    </div>
+  </div>
+  <!--<div class="range-slider" style="top: 0px; right: 0px; width: 100%; height: 2%; z-index: 16; position: absolute; text-align: center;">
+    <input
+      type="range" step="1" min="100" max="300" [value]="zoomLevel"
+      style="width: 50%; display: inline-block; -webkit-appearance: none; background: rgb(238, 238, 238); -webkit-tap-highlight-color: rgba(255, 255, 255, 0);">-->
+</div>
+<div *ngIf="debug && mousedown" style="font-size: 11px; z-index: 1000; padding-top: 1rem; position: fixed; top: 100px; left: 20px; background-color: white; color: black">
+    <div>Down: {{mousedown?.toString()}}</div>
+    <div>Elepos: {{elepos?.toString()}}</div>
+    <div>Mousepos: {{mousepos?.toString()}}</div>
+    <div>Mov: {{movePercentage?.toString()}}</div>
+    <div>actMov: {{actualMovePercentage?.toString()}}</div>
+    <div>newBgPos: {{newBgPos?.toString()}}</div>
+
+</div>

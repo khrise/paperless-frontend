@@ -1,11 +1,13 @@
-#content {
-    margin-top: 4rem;
-}
+@import 'colors.scss';
 
-.sidenav-container {
+#content {
+    background-color: $bg
+}
+/*.sidenav-container {
     position: absolute;
     top: 80px;
     bottom: 0;
     left: 0;
     right: 0;
 }
+*/

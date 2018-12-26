@@ -1,14 +1,14 @@
-    <mat-tab-group>
-        <mat-tab label="Preview">
-            <img class="w-100 border border-primary" src="{{baseUrl + doc.thumbnail_url}}">
+    <mat-tab-group *ngIf="doc">
+        <mat-tab label="Preview" class="border border-secondary">
+            <img class="w-100" src="{{baseUrl + doc.thumbnail_url}}">
         </mat-tab>
-        <mat-tab label="Pdf">
+        <mat-tab label="Pdf" class="border border-secondary">
             <app-pdf-popover [doc]="doc"></app-pdf-popover>
         </mat-tab>
-        <mat-tab label="Text">
-          <pre>{{doc.content}}</pre>
+        <mat-tab label="Text" class="border border-secondary">
+          <app-raw-text [doc]="doc"></app-raw-text>
         </mat-tab>
-        <mat-tab label="Data">
+        <mat-tab label="Data" class="border border-secondary">
            <app-document-data [doc]="doc"></app-document-data> 
           </mat-tab>
       </mat-tab-group>

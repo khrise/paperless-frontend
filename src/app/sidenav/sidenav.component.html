@@ -1,6 +1,11 @@
-<div class="container">
-
-    <mat-accordion>
+<div class="container" id="sidenavContent">
+  <div class="row">
+    <div class="col-sm-12 text-right"><a mat-icon-button class="sm-btn" (click)="close()">
+        <i class="material-icons small">close</i>
+    </a></div>
+  </div>
+<app-filter (onFilterChanged)="close()"></app-filter>
+    <!--<mat-accordion>
 
         <mat-expansion-panel (opened)="panelOpenState = true"
                              (closed)="panelOpenState = false">
@@ -15,5 +20,5 @@
           <p>I'm visible because I am open</p>
         </mat-expansion-panel>
       </mat-accordion>
-    
+    -->
 </div>

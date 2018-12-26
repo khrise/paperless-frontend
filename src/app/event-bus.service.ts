@@ -18,7 +18,7 @@ export class EventBusService {
   }
 
   on(...types: AppEventType[]): Observable<AppEvent> {
-    return this.subject.asObservable(); //.pipe(filter(this.typeFilter(types)));
+    return this.subject.asObservable().pipe(filter(this.typeFilter(types)));
   }
 
   typeFilter = (types: AppEventType[]) => {
@@ -32,7 +32,13 @@ export class AppEvent {
   constructor(public type: AppEventType) { }
 }
 
-export type AppEventType = "SIDE_MENU";
+export class FilterEvent extends AppEvent {
+  constructor(private filter: any) {
+    super("FILTER");
+  }
+}
+
+export type AppEventType = "SIDE_MENU" | "FILTER" ;
 
 interface Message {
   channel: AppEventType;

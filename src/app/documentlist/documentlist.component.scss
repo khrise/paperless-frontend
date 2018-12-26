@@ -1,41 +1,14 @@
-@import 'colors.scss';
+@import '../list/list.component.scss';
 
-
-mat-grid-tile-header.mat-grid-tile-header, mat-grid-tile-footer.mat-grid-tile-footer {
-    font-size: 12px;
-    background: rgba(121, 174, 200, .8) !important;
+ul {
+    list-style: none;
+    padding: 0;
 }
-
-mat-grid-tile-footer.mat-grid-tile-footer {
-    height: 35px !important;
-}
-
-mat-grid-tile.mat-grid-tile {
-    border: 1px solid #cccccc;
-    border-radius: 2%;
-    
-}
-
-.mat-grid-tile {
-    .mat-grid-tile-footer {
-        transition: background 0.3s ease;
-        background: rgba(0, 0, 0, 0) !important;
-        // bottom: -100px;
-        //display: none !important;
-    }
-    &:hover {
-        border-color: $primary;
-    
-        .mat-grid-tile-footer {
-            transition: background 0.5s ease;
-            background: rgba(121, 174, 200, .8)!important;
-            // bottom: 0px;
-            //display: flex !important;
-        }
-    }
-
-}    
-.mat-grid-list {
-    margin-bottom: 1rem;
+.chip {
+    font-size: .5rem;
+    padding: .5rem;
+    margin: 3px;
+    border-radius: 5px;
+    display: inline;
 }
 

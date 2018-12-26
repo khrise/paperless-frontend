@@ -40,6 +40,9 @@ export class PdfPopoverComponent implements OnInit, OnChanges {
   }
 
   public initFromDoc() {
+    if (! this.doc) {
+      return;
+    }
     let url = this.env.getBaseUrl() + this.doc.download_url
     this.pdfObject = this._sanitizer.bypassSecurityTrustHtml(
         "<object data='" + url + "'" +// "#view=FitH' " + 

@@ -1,0 +1,80 @@
+<div class="filterbar">
+  <div class="row m-0 p-0">
+
+    <div class="col-sm-2">
+      <button mat-icon-button (click)="menuToggle()">
+          <i class="material-icons">filter_list</i>
+      </button>
+      <button mat-icon-button (click)="toggleMode()">
+        <i class="material-icons">clear</i>
+      </button>
+  </div>
+  <div class="col-sm-6">
+      <table class="mat-table tiles-header" *ngIf="mode=='tiles'" 
+      matSort (matSortChange)="sortData($event)" [matSortActive]="'name'" [matSortStart]="'asc'">
+          <tr>
+            <th class="mat-header-cell" mat-sort-header="name" [start]="'asc'">Name</th>
+            <th class="mat-header-cell" mat-sort-header="slug">Slug</th>
+            <th class="mat-header-cell" mat-sort-header="match">Match</th>
+          </tr>
+          </table>
+
+  </div>
+
+  
+  </div>
+</div>
+<div class="container">
+    <table *ngIf="mode=='table'" 
+    mat-table [dataSource]="dataSource" 
+    matSort (matSortChange)="sortData($event)"
+    [matSortActive]="'name'" [matSortStart]="'asc'" [matSortDisableClear]="true">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="slug">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Slug </th>
+        <td mat-cell *matCellDef="let element"> {{element.slug}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="match">
+          <th mat-header-cell *matHeaderCellDef> Match </th>
+          <td mat-cell *matCellDef="let element"> {{element.match}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="matching_algorithm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Algorithm </th>
+            <td mat-cell *matCellDef="let element"> {{element.matching_algorithm}} </td>
+          </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  <mat-grid-list *ngIf="mode=='tiles'" class="m-t-1" cols="4" rowHeight="250" gutterSize="10px">
+      <mat-grid-tile *ngFor="let tag of list; let i = index">
+        <mat-grid-tile-header>{{ tag.name }}</mat-grid-tile-header>
+        
+        <div class="m-1 h-100 w-100">
+          <div class="upperTileContent small">
+            <div>Slug: {{tag.slug}}</div>
+            <div>Match: {{tag.match}}</div>
+            <div>Algorithm: {{tag.matching_algorithm}}</div>
+            </div>
+          </div>
+        <mat-grid-tile-footer>
+        </mat-grid-tile-footer>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+</div>
+<div class="fade" [ngClass]="{'overlay': loading, 'show': loading}">
+    <div *ngIf="loading" class="loadingIndicator">
+      <span class="spinnerContainer">
+        <mat-spinner [diameter]="25"></mat-spinner>
+      </span>
+    </div>
+  </div>

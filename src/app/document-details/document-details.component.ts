@@ -3,6 +3,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EnvironmentService } from '../environment.service';
 import { Document } from '../document';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { DocumentService } from '../document.service';
 
 @Component({
   selector: 'app-document-details',
@@ -16,8 +18,16 @@ export class DocumentDetailsComponent implements OnInit {
 
   baseUrl: string
 
-  constructor(private env: EnvironmentService) {
+  constructor(private env: EnvironmentService,
+    activatedRoute: ActivatedRoute,
+    private documentService: DocumentService) {
     this.baseUrl = this.env.getBaseUrl();
+    activatedRoute.params.subscribe(param => {
+      let theId = param.id;
+      this.documentService.getDocument(theId).subscribe(result => {
+        this.doc = result;
+      })
+    })
 
   }
   ngOnInit() {

@@ -1,0 +1,106 @@
+@import 'colors.scss';
+
+table {
+    width: 90%;
+
+    &.tiles-header {
+        width: initial;
+        th.mat-header-cell {
+            border: none !important;
+            padding: .5rem 0;
+        }
+    }
+}
+//mat-grid-tile-header.mat-grid-tile-header {
+    //display: block;
+//}
+mat-grid-tile-header.mat-grid-tile-header, mat-grid-tile-footer.mat-grid-tile-footer {
+    font-size: 11px;
+    background: rgba(121, 174, 200, .8) !important;
+    z-index: 10;
+    height: 2rem !important;
+}
+
+mat-grid-tile.mat-grid-tile {
+    border: 1px solid #cccccc;
+    border-radius: 2%;
+    
+}
+
+
+
+.mat-grid-tile {
+    background-color: white;
+    .mat-grid-tile-footer {
+        transition: background 0.3s ease;
+        background: rgba(0, 0, 0, 0) !important;
+        // bottom: -100px;
+        //display: none !important;
+    }
+    &:hover {
+        border-color: $primary;
+        div.lowerTileContent {
+            bottom: 2rem !important;
+            opacity: .5;
+            transition: bottom .3s ease, opacity .3s ease;
+            background-color: transparent;
+            //-webkit-transition: opacity .3s; 
+        }
+        .mat-grid-tile-footer {
+            transition: background 0.5s ease;
+            background: rgba(121, 174, 200, .8)!important;
+            // bottom: 0px;
+            //display: flex !important;
+        }
+    }
+
+}    
+.mat-grid-list {
+    margin-bottom: 1rem;
+} 
+
+.filterbar {
+    background-color: white;
+}
+
+.fade {
+    transition: opacity .3s linear;    
+}
+
+.overlay {
+    position: absolute;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255, 255, 255, .5);
+    z-index: 100;
+    //opacity: .5;
+}
+.loadingIndicator {
+    position: relative;
+    top: 30%;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+      //left: 50%;
+    // display:none;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: white!important;
+}
+
+div.upperTileContent {
+    position: absolute; 
+    top: 2rem; 
+    z-index: 20; 
+    background-color: transparent;
+}
+
+div.lowerTileContent {
+    position: absolute; 
+    bottom: 0; 
+    -webkit-transition: bottom .3s; 
+    z-index: 20; 
+    background-color: rgba(255, 255, 255, .5);
+
+}
