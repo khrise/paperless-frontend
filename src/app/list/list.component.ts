@@ -87,7 +87,7 @@ export class ListComponent<T> {
     }
 
 
-    toggleMode(m: MODE) {
+    toggleMode(m?: MODE) {
         if (m) {
             this.mode = m;
         } else {
