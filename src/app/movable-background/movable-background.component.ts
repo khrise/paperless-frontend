@@ -24,11 +24,16 @@ export class MovableBackgroundComponent implements OnInit {
   @Input()
   url: string;
 
+  
+  _enabled: boolean = false;
+  
   @ViewChild('child') child;
 
   debug: boolean = false;
 
-  baseUrl: string
+  baseUrl: string;
+
+  
 
   constructor(env: EnvironmentService) {
     this.baseUrl = env.getBaseUrl();
@@ -38,11 +43,38 @@ export class MovableBackgroundComponent implements OnInit {
     this.context = $(this.child.nativeElement);
     this.patternBackground = $('.pattern-background-image', this.context)
     this.imageContainer = $('.outer-container', this.context)
-    this.patternBackground.on("mousedown touchstart", this.mouseDownTouchStart);
+
+    this.enable(this.enabled)
+    
     //$('.range-slider input', this.context ).on("input", this.zoomEvent);
     this.zoomChange(this.zoomLevel);
   }
 
+  @Input()
+  public set enabled(v: boolean) {
+    let changed = this.enabled !== v;
+    this._enabled = v;
+    if (changed) {
+      this.enable(this.enabled);
+    }
+   
+  }
+
+  public get enabled() {
+    return this._enabled;
+  }
+
+  private enable(v: boolean) {
+    if (! this.patternBackground) {
+      return;
+    }
+    if (v) {
+      this.patternBackground.on("mousedown touchstart", this.mouseDownTouchStart);
+    } else {
+      this.patternBackground.off("mousedown touchstart");
+    }
+  } 
+  
   zoomLevel: number = 100;
 
   context;

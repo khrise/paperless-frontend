@@ -12,6 +12,8 @@ import { map, reduce, debounceTime, distinct, distinctUntilChanged } from 'rxjs/
 import { MovableBackgroundComponent } from '../movable-background/movable-background.component';
 import { ListComponent, MODE} from '../list/list.component';
 import { tagColors } from '../colors';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,8 +33,10 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
     modalService: NgbModal,
     dialog: MatDialog,
     env: EnvironmentService, 
-    eventBus: EventBusService) {
-      super(service, modalService, dialog, env, eventBus, "documents");
+    eventBus: EventBusService, 
+    breakpointObserver: BreakpointObserver, 
+    router: Router) {
+      super(service, modalService, dialog, env, eventBus, "documents", breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
       this.eventBus.on("FILTER")
         .pipe(distinctUntilChanged())

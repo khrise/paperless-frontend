@@ -16,7 +16,7 @@ table {
 //}
 mat-grid-tile-header.mat-grid-tile-header, mat-grid-tile-footer.mat-grid-tile-footer {
     font-size: 11px;
-    background: rgba(121, 174, 200, .8) !important;
+    background: rgba($secondaryR, $secondaryG, $secondaryB, .8) !important;
     z-index: 10;
     height: 2rem !important;
 }
@@ -48,7 +48,7 @@ mat-grid-tile.mat-grid-tile {
         }
         .mat-grid-tile-footer {
             transition: background 0.5s ease;
-            background: rgba(121, 174, 200, .8)!important;
+            background: rgba($secondaryR, $secondaryG, $secondaryB, .8)!important;
             // bottom: 0px;
             //display: flex !important;
         }
@@ -99,7 +99,7 @@ div.upperTileContent {
 div.lowerTileContent {
     position: absolute; 
     bottom: 0; 
-    -webkit-transition: bottom .3s; 
+    transition: bottom .3s; 
     z-index: 20; 
     background-color: rgba(255, 255, 255, .5);
 

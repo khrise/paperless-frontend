@@ -54,7 +54,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-  <mat-grid-list *ngIf="mode=='tiles'" class="m-t-1" cols="4" rowHeight="250" gutterSize="10px">
+  <mat-grid-list *ngIf="mode=='tiles'" class="m-t-1" [cols]="cols" [rowHeight]="rowHeight" gutterSize="10px">
       <mat-grid-tile *ngFor="let tag of list; let i = index">
         <mat-grid-tile-header>{{ tag.name }}</mat-grid-tile-header>
         

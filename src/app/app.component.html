@@ -1,7 +1,7 @@
 <body id="page-top">
   <app-header></app-header>
-  <mat-sidenav-container [hasBackdrop]="false">
-      <mat-sidenav #sidenav mode="push" fixedInViewport="true">
+  <mat-sidenav-container [hasBackdrop]="hasBackdrop">
+      <mat-sidenav #sidenav [mode]="mode" fixedInViewport="true">
           <app-sidenav>
             </app-sidenav>
         
@@ -10,7 +10,7 @@
 
     <mat-sidenav-content>
       <div id="content">
-        <div class="push" style="height: 90px;"></div>
+        <div class="push" style="height: 5.4rem"></div>
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>

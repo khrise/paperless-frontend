@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { filter, distinctUntilChanged, map } from 'rxjs/operators';
+import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
+import { filter, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -11,9 +11,16 @@ import { Observable, of } from 'rxjs';
 export class HeaderComponent implements OnInit {
   breadcrumbs: Observable<BreadCrumb[]>;
 
+  isNavbarCollapsed = true;
+
   constructor(private router: Router,
     private activatedRoute: ActivatedRoute) {
       this.breadcrumbs = this.router.events
+      .pipe(tap(v => {
+        if (v instanceof NavigationStart) {
+          this.isNavbarCollapsed = true;
+        }
+      }))
       .pipe(filter(event => event instanceof NavigationEnd))
       .pipe(distinctUntilChanged())
       .pipe(map(event =>  this.buildBreadCrumb(this.activatedRoute.root)));
@@ -24,15 +31,17 @@ export class HeaderComponent implements OnInit {
     //If no routeConfig is avalailable we are on the root path
     
     //let label = route.routeConfig ? route.routeConfig.data ? route.routeConfig.data[ 'breadcrumb' ] : 'Home' : '';
-    const label = route.routeConfig ? route.routeConfig.path : 'Home';
-    const path = route.routeConfig ? route.routeConfig.path : '';
+    let label = route.routeConfig ? route.routeConfig.path : 'Home';
+    let path = route.routeConfig ? route.routeConfig.path : '';
     
     //In the routeConfig the complete path is not available, 
 
-    let params = route.params.toPromise();
-    params.then(res => {
-      let a = res
-    })
+    let params = route.snapshot.params;
+    for (let key of Object.keys(params)) {
+      path = path.replace(":" + key, params[key]);
+      label = label.replace(":" + key, params[key]);
+    }
+    
     //so we rebuild it each time
     const nextUrl = `${url}${path}/`;
     const breadcrumb = {

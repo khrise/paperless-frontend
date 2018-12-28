@@ -106,8 +106,11 @@ export class FilterComponent {
     
   }
 
-  tagDisplayFn = (tag: Tag) => {
-    return tag.name;
+  tagDisplayFn = (tag: string | Tag): string => {
+    if (! tag) {
+      return '';
+    }
+    return typeof tag === 'string' ? tag.substring(tag.lastIndexOf('/')) : tag.name;
   }
 
   clear = () => {

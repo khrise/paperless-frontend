@@ -7,6 +7,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EnvironmentService } from '../environment.service';
 import { EventBusService } from '../event-bus.service';
 import { Tag } from '../tag';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tag-list',
@@ -29,8 +31,10 @@ export class TagListComponent extends ListComponent<Tag> implements OnInit {
     modalService: NgbModal,
     dialog: MatDialog,
     env: EnvironmentService, 
-    eventBus: EventBusService) {
-      super(service, modalService, dialog, env, eventBus, "tags");
+    eventBus: EventBusService,
+    breakpointObserver: BreakpointObserver,
+    router: Router) {
+      super(service, modalService, dialog, env, eventBus, "tags", breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
       this.eventBus.on("FILTER").subscribe(filterEvent => {
         this.filter = filterEvent['filter'];

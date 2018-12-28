@@ -1,13 +1,18 @@
-<div class="filterbar">
+<div class="filterbar container">
   <div class="row m-0 p-0">
 
-    <div class="col-sm-2">
-      <button mat-icon-button (click)="menuToggle()">
+    <div class="col-sm-3">
+      <button mat-button (click)="menuToggle()">
         <i class="material-icons">filter_list</i>
       </button>
-      <button mat-icon-button (click)="toggleMode()">
-        <i class="material-icons">clear</i>
-      </button>
+      <mat-button-toggle-group [value]="mode" name="mode" aria-label="Toggle view mode between list and tiles">
+          <mat-button-toggle value="table" (click)="toggleMode('table')">
+              <i class="material-icons">list</i>
+          </mat-button-toggle>
+          <mat-button-toggle value="tiles" (click)="toggleMode('tiles')">
+              <i class="material-icons">view_module</i>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
     </div>
     <div class="col-sm-6">
       <table class="mat-table tiles-header" *ngIf="mode=='tiles'" matSort (matSortChange)="sortData($event)"
@@ -22,8 +27,6 @@
       </table>
 
     </div>
-
-
   </div>
 </div>
 <div class="container">
@@ -57,10 +60,10 @@
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="router.navigate(['documents', row.id])"></tr>
   </table>
 
-  <mat-grid-list *ngIf="mode=='tiles'" class="m-t-1" cols="4" rowHeight="250" gutterSize="10px">
+  <mat-grid-list *ngIf="mode=='tiles'" class="m-t-1" [cols]="cols" [rowHeight]="rowHeight" gutterSize="10px">
     <mat-grid-tile *ngFor="let doc of list; let i = index">
       <mat-grid-tile-header>
           {{ doc.title }}
@@ -83,16 +86,22 @@
                 {{ doc.created | date }}
               </span>
         </div>
-        <app-movable-background id="'bg' + i" [url]="doc.thumbnail_url"></app-movable-background>
+        <app-movable-background [enabled]="true" id="'bg' + i" [url]="doc.thumbnail_url"></app-movable-background>
         <!--<img src="{{baseUrl + doc.thumbnail_url}}"/>-->
       </div>
       <mat-grid-tile-footer>
-        <div class="col-md-6">
-          <a mat-icon-button (click)="open(doc)"><i class="material-icons">zoom_in</i></a>
-        </div>
-        <div class="col-md-6 text-right">
-          <a mat-icon-button (click)="zoomOut(i)"><i class="material-icons">zoom_out</i></a>
-          <a mat-icon-button (click)="zoomIn(i)"><i class="material-icons">zoom_in</i></a>
+        <div class="container">
+
+          <div class="row">
+            <div class="col-sm-6">
+              <a mat-icon-button (click)="open(doc)"><i class="material-icons">zoom_in</i></a>
+            </div>
+            <div class="col-sm-6 text-right">
+              <a mat-icon-button (click)="zoomOut(i)"><i class="material-icons">zoom_out</i></a>
+              <a mat-icon-button (click)="zoomIn(i)"><i class="material-icons">zoom_in</i></a>
+            </div>
+  
+          </div>
         </div>
       </mat-grid-tile-footer>
     </mat-grid-tile>

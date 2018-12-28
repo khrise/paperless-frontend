@@ -41,11 +41,11 @@ export class SettingsComponent implements OnInit {
             this.form.get('user').setErrors({'wrong credentials': 'wrong credentials'});
             this.form.get('password').setErrors({'wrong credentials': 'wrong credentials'});
           }
-          if (error.status === 404) {
+          else if (error.status === 404) {
             this.form.get('url').setErrors({'wrong url': 'wrong url'});
           }
         } else {
-          this.form.get('url').setErrors({'unreachable': 'unreachable'});
+          this.form.get('url').setErrors({'url error': error.message});
         }
       }
     );
