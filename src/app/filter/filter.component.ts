@@ -7,6 +7,8 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { DocumentService } from '../document.service';
 import { Tag } from '../tag';
 import { tagColors } from '../colors';
+import { Filter, DocumentFilter, TagFilter } from './filter';
+import { FilterService } from '../filter.service';
 
 @Component({
   selector: 'app-filter',
@@ -17,14 +19,11 @@ export class FilterComponent {
 
   thePath: string
 
-  filterFields = [];
-  docFilterFields = ["title", "tags__name", "correspondent__name", "content"]
-  tagFilterFields = ["name", "slug", "match"]
-
-  filter: any = [];
+  filter: Filter;
 
   colors = tagColors
 
+  showTagsSection: boolean;
   showTagSelector: boolean;
   tags: Observable<Tag[]> ;
   tagControl: FormControl;
@@ -38,7 +37,8 @@ export class FilterComponent {
   constructor(private fb: FormBuilder,
     private eventBus: EventBusService, 
     private service: DocumentService,
-    router: Router) {
+    router: Router,
+    private filterService: FilterService) {
 
       this.initFromPath();
     
@@ -55,55 +55,63 @@ export class FilterComponent {
   }
 
   initFromPath() {
-    this.filter = [];
+    this.filter = new Filter();
     this.filterForm = this.fb.group({});
-    this.filterFields = [];
     if (this.thePath === "/documents") {
-      this.filterFields = this.docFilterFields.slice();
+      this.filter = this.filterService.loadFilter("documents", new DocumentFilter());
+      
       this.showTagSelector = true;
-      this.filterForm.addControl("tagExact", new FormControl(''));
+      this.showTagsSection = true;
+      this.filterForm.addControl("tag_exact", new FormControl(''));
+
       this.tagControl = new FormControl();
       this.tags = this.tagControl.valueChanges.pipe(
         startWith<string | Tag>(''),
         tap(value => {
           if (value && typeof value !== 'string') {
-            this.filterForm.get('tagExact').setValue(value.id);
+            (this.filter as DocumentFilter).tagIds.push(value.id);
           } else {
-            this.filterForm.get('tagExact').reset();
+            //this.filterForm.get('tag_exact').reset();
           }
         }),
         map(value => typeof value === 'string' ? value : value.name),
         distinctUntilChanged(),
         debounceTime(250),
-        concatMap((value:string) => this.service.getPage<Tag>("tags", {"name": value}))        
+        concatMap((value:string) => this.service.getPage<Tag>("tags", new TagFilter(value)))        
       );
       
       this.showCorrespondentSelector = true;
     } else if (this.thePath === "/tags") {
-      this.filterFields = this.tagFilterFields.slice();
+      this.filter = this.filterService.loadFilter("tags", new TagFilter());
+      this.showTagSelector = false;
+      this.showTagsSection = false;
     } 
 
-    for (let f of this.filterFields) {
-      this.filter.push({field: f, value: ""});
-      this.filterForm.addControl(f, new FormControl(''));
+    for (let f of this.filter.fieldFilters) {
+      this.filterForm.addControl(f.field, new FormControl(f.value));
     }
 
     this.filterForm.valueChanges
       .pipe(debounceTime(300))
       .pipe(distinctUntilChanged())
-      /*.pipe(filter(elem => JSON.stringify(elem, replaceFunc) !== "{}"))
-      .pipe(distinctUntilChanged((a, b) => {
-        let sa = JSON.stringify(a, replaceFunc);
-        let sb = JSON.stringify(b, replaceFunc);
-        return sa === sb;
-      }))*/
       .subscribe(
         filter => {
-          this.eventBus.publish(new FilterEvent(filter));
+          this.mergeAndPublish(filter);
           //this.eventBus.publish("SIDE_MENU");
         }
       )
     
+  }
+
+  mergeAndPublish(filter: any) {
+    for (let field of Object.keys(filter)) {
+      let target = this.filter.fieldFilters.find(elem => elem.field === field);
+      if (target) {
+        target.value = filter[field];
+      }
+    }
+    this.filterService.saveFilter("documents", this.filter);
+    this.eventBus.publish(new FilterEvent(this.filter));
   }
 
   tagDisplayFn = (tag: string | Tag): string => {
@@ -116,12 +124,6 @@ export class FilterComponent {
   clear = () => {
     this.filterForm.reset();
   }
-
-  
-  addFilter = (fieldName: string) => {
-    this.filter.push({field: fieldName, value: ""});
-    this.filterForm.addControl(fieldName, new FormControl());
-  }  
 
   search = () => {
     

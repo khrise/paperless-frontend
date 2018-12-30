@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DocumentService } from '../document.service';
 import { Subscription } from 'rxjs';
 import { ListComponent } from '../list/list.component';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './tag-list.component.html',
   styleUrls: ['./tag-list.component.scss']
 })
-export class TagListComponent extends ListComponent<Tag> implements OnInit {
+export class TagListComponent extends ListComponent<Tag> implements OnInit, OnDestroy {
 
   displayedColumns = ["name", "slug", "match", "matching_algorithm"];
   
@@ -27,6 +27,8 @@ export class TagListComponent extends ListComponent<Tag> implements OnInit {
   loading: boolean;
   sub: Subscription;
 
+  filterSub: Subscription;
+
   constructor(service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
@@ -36,14 +38,20 @@ export class TagListComponent extends ListComponent<Tag> implements OnInit {
     router: Router) {
       super(service, modalService, dialog, env, eventBus, "tags", breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
-      this.eventBus.on("FILTER").subscribe(filterEvent => {
-        this.filter = filterEvent['filter'];
-        this.fetch();
-      })
     }
 
   ngOnInit() {
+    this.filterSub = this.eventBus.on("FILTER").subscribe(filterEvent => {
+      this.filter = filterEvent['filter'];
+      this.fetch();
+    })
     this.fetch();
+  }
+
+  ngOnDestroy() {
+    if (this.filterSub) {
+      this.filterSub.unsubscribe();
+    }
   }
 
   fetchTags = () => {

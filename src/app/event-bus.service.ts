@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { Filter } from './filter/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class AppEvent {
 }
 
 export class FilterEvent extends AppEvent {
-  constructor(private filter: any) {
+  constructor(private filter: Filter) {
     super("FILTER");
   }
 }

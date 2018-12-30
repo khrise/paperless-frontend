@@ -7,10 +7,10 @@
 </div>
 <div>
   <form [formGroup]="filterForm" class="filter-form">
-    <mat-form-field class="example-full-width" *ngFor="let elem of filter">
+    <mat-form-field class="example-full-width" *ngFor="let elem of filter.fieldFilters">
       <input matInput placeholder="{{elem.field}}" formControlName="{{elem.field}}" value="{{elem.value}}">
     </mat-form-field>
-    <div *ngIf="showTagSelector">
+    <!--<div *ngIf="showTagSelector">
         <mat-form-field>
           <input type="text" placeholder="Tag wählen" [formControl]="tagControl" matInput [matAutocomplete]="tagExact">
         </mat-form-field>
@@ -23,7 +23,7 @@
             </mat-option>
           </mat-autocomplete>
 
-    </div>
+    </div>-->
   </form>        
 </div>
 <div>

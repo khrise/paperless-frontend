@@ -1,8 +1,8 @@
 <div class="filterbar">
-  <div class="row m-0 p-0">
+  <div class="">
 
     <div class="col-sm-3">
-      <button mat-button (click)="menuToggle()">
+      <button mat-icon-button (click)="menuToggle()">
         <i class="material-icons">filter_list</i>
       </button>
       <mat-button-toggle-group [value]="mode" name="mode" aria-label="Toggle view mode between list and tiles">
@@ -117,11 +117,12 @@
 
           <div class="row">
             <div class="col-sm-6">
-              <a mat-icon-button (click)="openPreview(doc)"><i class="material-icons">zoom_in</i></a>
+              <a mat-icon-button href="javascript:void(0)" (click)="openPreview(doc)"><i class="material-icons">zoom_in</i></a>
+              <a mat-icon-button href="{{baseUrl + doc.download_url}}" download target="_blank"><i class="material-icons">cloud_download</i></a>
             </div>
             <div class="col-sm-6 text-right">
-              <a mat-icon-button (click)="zoomOut(i)"><i class="material-icons">zoom_out</i></a>
               <a mat-icon-button (click)="zoomIn(i)"><i class="material-icons">zoom_in</i></a>
+              <a mat-icon-button (click)="zoomOut(i)"><i class="material-icons">zoom_out</i></a>
             </div>
   
           </div>

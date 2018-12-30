@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, OnDestroy } from '@angular/core';
 import { DocumentService } from '../document.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PdfPopoverComponent } from '../pdf-popover/pdf-popover.component';
@@ -14,6 +14,8 @@ import { ListComponent, MODE} from '../list/list.component';
 import { tagColors } from '../colors';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { FilterService } from '../filter.service';
+import { DocumentFilter } from '../filter/filter';
 
 
 @Component({
@@ -21,7 +23,7 @@ import { Router } from '@angular/router';
   templateUrl: './documentlist.component.html',
   styleUrls: ['./documentlist.component.scss']
 })
-export class DocumentlistComponent extends ListComponent<Document> implements OnInit {
+export class DocumentlistComponent extends ListComponent<Document> implements OnInit, OnDestroy {
 
   @ViewChildren(MovableBackgroundComponent) viewChildren : QueryList<MovableBackgroundComponent>;
 
@@ -29,28 +31,39 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
 
   colors = tagColors;
 
+  filterSub: Subscription;
+
   constructor(service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
     env: EnvironmentService, 
     eventBus: EventBusService, 
     breakpointObserver: BreakpointObserver, 
-    router: Router) {
+    router: Router,
+    private filterService: FilterService) {
       super(service, modalService, dialog, env, eventBus, "documents", breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
-      this.eventBus.on("FILTER")
+      
+    }
+
+  ngOnInit() {
+    this.sort = {active: 'created', direction: 'desc'};
+    this.filter = this.filterService.loadFilter("documents", new DocumentFilter());
+    this.filterSub = this.eventBus.on("FILTER")
         .pipe(distinctUntilChanged())
         .pipe(debounceTime(300))
         .subscribe(filterEvent => {
         this.filter = filterEvent['filter'];
         this.fetch();
       })
-    }
-
-  ngOnInit() {
-    this.sort = {active: 'created', direction: 'desc'};
     this.fetch();
     
+  }
+
+  ngOnDestroy() {
+    if (this.filterSub) {
+      this.filterSub.unsubscribe();
+    }
   }
 
   openPreview = (doc: Document) => {
@@ -70,7 +83,7 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
     if (! url) {
       return of("-")
     }
-    return this.service.getCorrespondent(url)
+    return this.service.getMatchable(url)
      .pipe(map((elem) => elem[fieldName]));
   }
 
@@ -78,7 +91,7 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
     if (! urls || urls.length == 0) {
       return of("-")
     }
-    return forkJoin(urls.map(elem => this.service.getTag(elem)
+    return forkJoin(urls.map(elem => this.service.getMatchable(elem)
       .pipe(map((elem) => elem[fieldName]))))
       .pipe(reduce((acc, val) => acc + "," + val));
   }

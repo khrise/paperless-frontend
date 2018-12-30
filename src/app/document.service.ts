@@ -5,27 +5,21 @@ import { map, shareReplay, reduce } from 'rxjs/operators';
 import { Document } from './document';
 import { EnvironmentService } from './environment.service';
 import { Sort } from '@angular/material/sort';
+import { Filter } from './filter/filter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  private correspondentCache: { [key: string]: Observable<any> } = {};
+  private cache: { [key: string]: Observable<any> } = {};
   
-  getCorrespondent = (url: string): Observable<any> => {
-    this.correspondentCache[url] = this.correspondentCache[url] || this.http.get(url).pipe(shareReplay(1));
-    return this.correspondentCache[url];
+  getMatchable = (url: string): Observable<any> => {
+    this.cache[url] = this.cache[url] || this.http.get(url).pipe(shareReplay(1));
+    return this.cache[url];
     
   }
-  
-  private tagCache: { [key: string]: Observable<any> } = {};
-  getTag = (url: string): Observable<any> => {
-    this.tagCache[url] = this.tagCache[url] || this.http.get(url).pipe(shareReplay(1));
-    return this.tagCache[url];
-    
-  }
-  
+
   update = (id: number, value: { field: any; }): Observable<Document> => {
     return this.http.put(this.env.getBaseUrl() + "/api/documents/" + id + "/", value, {observe: 'response'})
     .pipe(map((res: HttpResponse<any>) => res.status === 200 ? res.body : null));
@@ -38,7 +32,7 @@ export class DocumentService {
     return this.getPage<Document>("documents", filter, sort)
   }
 
-  public getPage<T>(path, filter?, sort?: Sort): Observable<T[]> {
+  public getPage<T>(path, filter?: Filter, sort?: Sort): Observable<T[]> {
     let params = this.buildFilter(filter)
     params = this.applySorting(sort, params)
     let res = this.http.get(`${this.env.getBaseUrl()}/api/${path}/`, 
@@ -74,17 +68,25 @@ export class DocumentService {
   }
   
 
-  private buildFilter = (filter, params?: HttpParams) => {
+  private buildFilter = (filter: Filter, params?: HttpParams) => {
     if (! params) {
       params = new HttpParams()
     }
     if (filter) {
       for (let field of Object.keys(filter)) {
+        if (field === 'fieldFilters') {
+          continue;
+        }
         if (filter[field] == null || filter[field] === "") {
           continue;
         }
-        // filter defaults to _icontains_
-        params = params.append(field + "__icontains", filter[field]);
+        params = params.append(field, filter[field]);
+      }
+      for (let field of filter.fieldFilters) {
+        if (field.value == null || field.value === "") {
+          continue;
+        }
+        params = params.append(field.key, String(field.value));
       }
     }
     return params;
@@ -114,7 +116,7 @@ export class DocumentService {
     if (! url) {
       return of("-")
     }
-    return this.getCorrespondent(url)
+    return this.getMatchable(url)
      .pipe(map((elem) => fieldName ? elem[fieldName] : elem));
   }
 
@@ -122,7 +124,7 @@ export class DocumentService {
     if (! urls || urls.length == 0) {
       return of("-")
     }
-    return forkJoin(urls.map(elem => this.getTag(elem)
+    return forkJoin(urls.map(elem => this.getMatchable(elem)
       .pipe(map((elem) => elem[fieldName]))))
       .pipe(reduce((acc, val) => acc + "," + val));
   }
