@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Inject, ChangeDetectorRef, ViewRef, ViewChild, AfterContentInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DocumentDetailsComponent } from '../document-details/document-details.component';
-import { EnvironmentService } from '../environment.service';
 
 @Component({
   selector: 'app-details-dialog',
@@ -10,12 +8,10 @@ import { EnvironmentService } from '../environment.service';
 })
 export class DetailsDialogComponent implements OnInit {
 
-  
-
   @Input() doc: Document
 
   @Input() index: number
-
+ 
   constructor(//public activeModal: NgbActiveModal,
     public dialogRef: MatDialogRef<DetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,

@@ -25,7 +25,7 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
 
   @ViewChildren(MovableBackgroundComponent) viewChildren : QueryList<MovableBackgroundComponent>;
 
-  displayedColumns = ["title", "created", "modified", "correspondent__name", "tag_names"];
+  displayedColumns = ["title", "created", "modified", "correspondent__name", "tag_names", "links"];
 
   colors = tagColors;
 
@@ -53,13 +53,13 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
     
   }
 
-    open = (doc: Document) => {
+  openPreview = (doc: Document) => {
     /*onst modalRef = this.modalService.open(DocumentDetailsComponent, 
       {backdrop: true, size: 'lg'});
     modalRef.componentInstance.doc = doc;*/
     this.dialog.open(DetailsDialogComponent, {
       width: '90%',
-      height: '70%',
+      //height: '70%',
       hasBackdrop: true,
       
       data: { doc: doc, index: this.list.indexOf(doc), documents: this.list}});

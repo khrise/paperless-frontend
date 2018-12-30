@@ -1,8 +1,5 @@
-<!--<div id="anchor"></div>-->
-<div #container class="w-100" style="height: 400px" [innerHTML]="pdfObject">
+<div *ngIf="mode==='img'">
     <img src="{{baseUrl + doc.download_url}}" />
 </div>
-
-<!--<pdf-viewer [src]="baseUrl + doc.download_url" 
-          [render-text]="false"
-          style="display: block;"></pdf-viewer>-->
+<div *ngIf="mode==='pdf'" #container class="w-100" style="height: 80vh" [innerHTML]="pdfObject">    
+</div>

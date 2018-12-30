@@ -21,7 +21,6 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
   </div>-->
-
   <div mat-dialog-title *ngIf="doc">
       <div class="container">
         <div class="row mat-body">
@@ -46,6 +45,12 @@
       <app-document-details [doc]="doc"></app-document-details>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
-    <button mat-button cdkFocusInitial>Ok</button>
+    <button mat-button (click)="onNoClick()">
+      <i class="material-icons">close</i>
+    </button>
+    <span>
+        <a [routerLink]="'/documents/' + doc.id" (click)="onNoClick()">
+          <i class="material-icons">open_in_new</i>
+        </a>
+    </span>
   </div>

@@ -1,8 +1,6 @@
-import { Component, OnInit, Input, Inject, ChangeDetectorRef } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input } from '@angular/core';
 import { EnvironmentService } from '../environment.service';
 import { Document } from '../document';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentService } from '../document.service';
 
@@ -16,22 +14,27 @@ export class DocumentDetailsComponent implements OnInit {
   @Input()
   doc: Document;
 
-  baseUrl: string
+  baseUrl: string;
+
+  standalone: boolean;
 
   constructor(private env: EnvironmentService,
-    activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private documentService: DocumentService) {
     this.baseUrl = this.env.getBaseUrl();
-    activatedRoute.params.subscribe(param => {
-      let theId = param.id;
-      this.documentService.getDocument(theId).subscribe(result => {
-        this.doc = result;
-      })
-    })
-
+    
   }
   ngOnInit() {
+    if (!this.doc) {
+      this.activatedRoute.params.subscribe(param => {
+        let theId = param.id;
+        this.standalone = true;
+        this.documentService.getDocument(theId).subscribe(result => {
+          this.doc = result;
+        })
+      })
+
+    }
 
   }
-
 }
