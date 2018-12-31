@@ -1,5 +1,5 @@
 const containsFilter = (field: string, value?: string): FilterValue => {
-    return {operator: "contains", field: field, key: field + "__contains", value: value || null}
+    return {operator: "contains", field: field, key: field + "__icontains", value: value || null}
 }
 
 export interface FilterValue {
@@ -13,14 +13,14 @@ export class Filter {
     public fieldFilters: FilterValue[] = [];
 }
 
-export class TagFilter extends Filter {
+export class MatchableFilter extends Filter {
     fieldFilters = [
-        containsFilter('name')
+        containsFilter('name'),
+        containsFilter('slug')
     ];
 
     constructor(name?: string) {
         super();
-        this.fieldFilters = [containsFilter('name', name)];
     }
 }
 

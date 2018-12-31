@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { TagListComponent } from './tag-list/tag-list.component';
 import { SettingsComponent } from './settings/settings.component';
+import { CorrespondentListComponent } from './correspondent-list/correspondent-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,7 +16,12 @@ const routes: Routes = [
     ]
   },
   //{ path: 'tagss/:id', component: DocumentDetailsComponent},
-  { path: 'tags', component: TagListComponent },
+  { path: 'tags', children: [
+    {path: '', component: TagListComponent}
+  ] },
+   { path: 'correspondents', children: [
+    {path: '', component: CorrespondentListComponent}
+  ] },
   { path: 'settings', component: SettingsComponent }
   //{path: 'document', component: }
 ];

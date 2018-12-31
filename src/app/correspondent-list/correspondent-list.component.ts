@@ -1,22 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatchableListComponent } from '../matchable-list/matchable-list.component';
+import { Correspondent } from '../tag';
 import { DocumentService } from '../document.service';
-import { Subscription } from 'rxjs';
-import { ListComponent } from '../list/list.component';
-import { MatTableDataSource, MatDialog } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatDialog } from '@angular/material';
 import { EnvironmentService } from '../environment.service';
 import { EventBusService } from '../event-bus.service';
-import { Tag } from '../tag';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
-import { MatchableListComponent } from '../matchable-list/matchable-list.component';
 
 @Component({
-  selector: 'app-tag-list',
+  selector: 'app-correspondent-list',
   templateUrl: '../matchable-list/matchable-list.component.html',
-  styleUrls: ['./tag-list.component.scss']
+  styleUrls: ['./correspondent-list.component.scss']
 })
-export class TagListComponent extends MatchableListComponent<Tag> {
+export class CorrespondentListComponent extends MatchableListComponent<Correspondent> {
 
   constructor(service: DocumentService,
     modalService: NgbModal,
@@ -25,7 +23,9 @@ export class TagListComponent extends MatchableListComponent<Tag> {
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
     router: Router) {
-      super("tags", service, modalService, dialog, env, eventBus, breakpointObserver, router);
+      super("correspondents", service, modalService, dialog, env, eventBus, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
     }
+
+
 }

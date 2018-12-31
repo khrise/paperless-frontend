@@ -28,6 +28,7 @@ import { TagListComponent } from './tag-list/tag-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsProviderService } from './settings-provider.service';
 import { LayoutModule } from '@angular/cdk/layout';
+import { CorrespondentListComponent } from './correspondent-list/correspondent-list.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     ResolveConcatPipe,
     MovableBackgroundComponent,
     TagListComponent,
-    SettingsComponent
+    SettingsComponent,
+    CorrespondentListComponent
   ],
   imports: [
     BrowserModule,

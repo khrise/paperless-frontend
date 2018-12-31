@@ -1,31 +1,13 @@
-<div class="filterbar">
-  <div class="row m-0 p-0">
+<div class="filterbar row">
 
     <div class="col-sm-2">
       <button mat-icon-button (click)="menuToggle()">
           <i class="material-icons">filter_list</i>
       </button>
-      <button mat-icon-button (click)="toggleMode()">
-        <i class="material-icons">clear</i>
-      </button>
-  </div>
-  <div class="col-sm-6">
-      <table class="mat-table tiles-header" *ngIf="mode=='tiles'" 
-      matSort (matSortChange)="sortData($event)" [matSortActive]="'name'" [matSortStart]="'asc'">
-          <tr>
-            <th class="mat-header-cell" mat-sort-header="name" [start]="'asc'">Name</th>
-            <th class="mat-header-cell" mat-sort-header="slug">Slug</th>
-            <th class="mat-header-cell" mat-sort-header="match">Match</th>
-          </tr>
-          </table>
-
-  </div>
-
-  
   </div>
 </div>
 <div class="container">
-    <table *ngIf="mode=='table'" 
+    <table 
     mat-table [dataSource]="dataSource" 
     matSort (matSortChange)="sortData($event)"
     [matSortActive]="'name'" [matSortStart]="'asc'" [matSortDisableClear]="true">
@@ -53,22 +35,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-  <mat-grid-list *ngIf="mode=='tiles'" class="m-t-1" [cols]="cols" [rowHeight]="rowHeight" gutterSize="10px">
-      <mat-grid-tile *ngFor="let tag of list; let i = index">
-        <mat-grid-tile-header>{{ tag.name }}</mat-grid-tile-header>
-        
-        <div class="m-1 h-100 w-100">
-          <div class="upperTileContent small">
-            <div>Slug: {{tag.slug}}</div>
-            <div>Match: {{tag.match}}</div>
-            <div>Algorithm: {{tag.matching_algorithm}}</div>
-            </div>
-          </div>
-        <mat-grid-tile-footer>
-        </mat-grid-tile-footer>
-      </mat-grid-tile>
-    </mat-grid-list>
 
 </div>
 <div class="fade" [ngClass]="{'overlay': loading, 'show': loading}">
