@@ -29,6 +29,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { SettingsProviderService } from './settings-provider.service';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CorrespondentListComponent } from './correspondent-list/correspondent-list.component';
+import { LogsComponent } from './logs/logs.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { CorrespondentListComponent } from './correspondent-list/correspondent-l
     MovableBackgroundComponent,
     TagListComponent,
     SettingsComponent,
-    CorrespondentListComponent
+    CorrespondentListComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule,

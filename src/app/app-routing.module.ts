@@ -6,6 +6,7 @@ import { DocumentDetailsComponent } from './document-details/document-details.co
 import { TagListComponent } from './tag-list/tag-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CorrespondentListComponent } from './correspondent-list/correspondent-list.component';
+import { LogsComponent } from './logs/logs.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,15 +16,18 @@ const routes: Routes = [
       { path: ':id', component: DocumentDetailsComponent },
     ]
   },
-  //{ path: 'tagss/:id', component: DocumentDetailsComponent},
-  { path: 'tags', children: [
-    {path: '', component: TagListComponent}
-  ] },
-   { path: 'correspondents', children: [
-    {path: '', component: CorrespondentListComponent}
-  ] },
-  { path: 'settings', component: SettingsComponent }
-  //{path: 'document', component: }
+  {
+    path: 'tags', children: [
+      { path: '', component: TagListComponent }
+    ]
+  },
+  {
+    path: 'correspondents', children: [
+      { path: '', component: CorrespondentListComponent }
+    ]
+  },
+  { path: 'settings', component: SettingsComponent },
+  { path: 'logs', component: LogsComponent }
 ];
 
 @NgModule({

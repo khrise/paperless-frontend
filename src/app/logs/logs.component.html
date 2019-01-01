@@ -1,0 +1,14 @@
+<div class="container">
+  <div *ngFor="let entry of list | async " class="row">
+    <div class="col-sm-2">{{entry.time | date: 'short'}}</div>
+    <div class="col-sm-10">{{entry.messages}}</div>
+  </div>
+
+</div>
+
+<!--<table mat-table [dataSource]="dataSource">
+  ...
+</table>
+-->
+
+
