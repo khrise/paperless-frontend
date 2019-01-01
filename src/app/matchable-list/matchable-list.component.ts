@@ -9,6 +9,8 @@ import { EventBusService } from '../event-bus.service';
 import { Tag, Matchable } from '../tag';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
+import { Page } from '../page';
+import { CustomDataSource } from '../paging/custom-data-source';
 
 @Component({
   templateUrl: '../matchable-list/matchable-list.component.html',
@@ -16,14 +18,12 @@ import { Router } from '@angular/router';
 })
 export class MatchableListComponent<T extends Matchable> extends ListComponent<T> implements OnInit, OnDestroy {
 
-  displayedColumns = ["name", "slug", "match", "matching_algorithm"];
-
+  page: Page<T>;
   list: T[];
   filter;
   sort;
 
   loading: boolean;
-  sub: Subscription;
 
   filterSub: Subscription;
 
@@ -35,12 +35,15 @@ export class MatchableListComponent<T extends Matchable> extends ListComponent<T
     env: EnvironmentService, 
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
-    router: Router) {
+    router: Router,
+    public displayedColumns = ["name", "slug", "match", "matching_algorithm"]) {
         super(service, modalService, dialog, env, eventBus, apiPath, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
     }
 
   ngOnInit() {
+    this.dataSource = new CustomDataSource(this.service, this.apiPath);
+    this.dataSource.loading$.subscribe(l => this.loading = l);
     // mode is hard-coded here
     this.mode = "table";
     this.filterSub = this.eventBus.on("FILTER").subscribe(filterEvent => {
@@ -57,17 +60,7 @@ export class MatchableListComponent<T extends Matchable> extends ListComponent<T
   }
 
   fetch = () => {
-    this.loading = true;
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-    this.sub = this.service.getPage<T>(this.apiPath, this.filter, this.sort).subscribe(
-      result => {
-        this.loading = false;
-        this.dataSource = new MatTableDataSource(result);
-        this.list = result;
-      }
-    )
+    this.dataSource.loadEntries(this.filter, this.sort);
   }
  
 }

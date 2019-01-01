@@ -1,14 +1,47 @@
-<div class="container">
-  <div *ngFor="let entry of list | async " class="row">
-    <div class="col-sm-2">{{entry.time | date: 'short'}}</div>
-    <div class="col-sm-10">{{entry.messages}}</div>
+<div class="filterbar row">
+
+    <div class="col-sm-2">
+      <button mat-icon-button (click)="menuToggle()">
+          <i class="material-icons">filter_list</i>
+      </button>
   </div>
+</div>
+<div class="container">
+    <table 
+    mat-table [dataSource]="dataSource" 
+    matSort (matSortChange)="sortData($event)"
+    [matSortActive]="'name'" [matSortStart]="'asc'" [matSortDisableClear]="true">
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+        <td mat-cell *matCellDef="let element">
+          <span>
+              {{element.time | date: 'short'}}
+          </span>
+        </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="messages">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Message </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span>
+            {{element.messages}} 
+          </span>
+        </td>
+      </ng-container>
+
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="dataSource.count" (page)="onPageEvent($event)"></mat-paginator>
 
 </div>
-
-<!--<table mat-table [dataSource]="dataSource">
-  ...
-</table>
--->
-
-
+<div class="fade" [ngClass]="{'overlay': loading, 'show': loading}">
+    <div *ngIf="loading" class="loadingIndicator">
+      <span class="spinnerContainer">
+        <mat-spinner [diameter]="25"></mat-spinner>
+      </span>
+    </div>
+  </div>

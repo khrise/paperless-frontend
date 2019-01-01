@@ -6,6 +6,7 @@ import { Document } from './document';
 import { EnvironmentService } from './environment.service';
 import { Sort } from '@angular/material/sort';
 import { Filter } from './filter/filter';
+import { Page } from './page';
 
 @Injectable({
   providedIn: 'root'
@@ -28,18 +29,21 @@ export class DocumentService {
   constructor(private http: HttpClient,
     private env: EnvironmentService) {};
 
-  public getDocuments = (filter?, sort?: Sort): Observable<Document[]> => {
+  public getDocuments = (filter?, sort?: Sort): Observable<Page<Document>> => {
     return this.getPage<Document>("documents", filter, sort)
   }
 
-  public getPage<T>(path, filter?: Filter, sort?: Sort): Observable<T[]> {
+  public getPage<T>(path, filter?: Filter, sort?: Sort, pageIndex?: number): Observable<Page<T>> {
     let params = this.buildFilter(filter)
     params = this.applySorting(sort, params)
+    if (pageIndex && pageIndex > 1) {
+      params = params.set("page", pageIndex.toString())
+    }
     let res = this.http.get(`${this.env.getBaseUrl()}/api/${path}/`, 
       {observe: "response", params: params});
     return res.pipe(map(
       result => {
-        return result.body['results'] as T[]
+        return result.body as Page<T>
       },
       error => {
         if (error.status && error.status === 403) {

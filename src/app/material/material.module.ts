@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatTabsModule, MatDialogModule, MatMenuModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDrawerContainer, MatSidenavModule, MatExpansionModule, MatTableModule, MatSortModule, MatProgressSpinnerModule, MatAutocompleteModule, MatButtonToggleModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatTabsModule, MatDialogModule, MatMenuModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDrawerContainer, MatSidenavModule, MatExpansionModule, MatTableModule, MatSortModule, MatProgressSpinnerModule, MatAutocompleteModule, MatButtonToggleModule, MatPaginatorModule} from '@angular/material';
 
 
 @NgModule({
@@ -21,7 +21,8 @@ import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatTabsModule, Ma
     MatTableModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatPaginatorModule
   ],
   exports: [
     MatGridListModule,
@@ -37,7 +38,8 @@ import {MatButtonModule, MatCheckboxModule, MatGridListModule, MatTabsModule, Ma
     MatTableModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }

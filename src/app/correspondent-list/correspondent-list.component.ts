@@ -23,7 +23,8 @@ export class CorrespondentListComponent extends MatchableListComponent<Correspon
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
     router: Router) {
-      super("correspondents", service, modalService, dialog, env, eventBus, breakpointObserver, router);
+      super("correspondents", service, modalService, dialog, env, eventBus, breakpointObserver, router,
+      ["name", "slug"]);
       this.baseUrl = env.getBaseUrl();
     }
 

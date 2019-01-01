@@ -63,16 +63,17 @@ mat-grid-tile.mat-grid-tile {
 .overlay {
     position: absolute;
     left:0;right:0;top:0;bottom:0;
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(255, 255, 255, .7);
     z-index: 100;
 }
 .loadingIndicator {
-    position: relative;
-    top: 30%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
     height: 2em;
     width: 2em;
     overflow: show;
-    margin: auto;
+    
 }
 
 .mat-progress-spinner circle, .mat-spinner circle {

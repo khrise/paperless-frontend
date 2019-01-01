@@ -128,6 +128,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
+  <mat-paginator [length]="dataSource.count" (page)="onPageEvent($event)"></mat-paginator>
 </div>
 
 <div class="fade" [ngClass]="{'overlay': loading, 'show': loading}">

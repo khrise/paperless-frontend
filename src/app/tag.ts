@@ -2,11 +2,11 @@ export class Matchable {
     id: number;
     name: string;
     slug: string;
-    color: number;
-
 }
 
 export class Tag extends Matchable {
+    color: number;
+    matching_algorithm;
 }
 
 

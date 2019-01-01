@@ -7,7 +7,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { DocumentService } from '../document.service';
 import { Tag } from '../tag';
 import { tagColors } from '../colors';
-import { Filter, DocumentFilter, MatchableFilter } from './filter';
+import { Filter, DocumentFilter, MatchableFilter, LogFilter } from './filter';
 import { FilterService } from '../filter.service';
 
 @Component({
@@ -79,7 +79,8 @@ export class FilterComponent {
         map(value => typeof value === 'string' ? value : value.name),
         distinctUntilChanged(),
         debounceTime(250),
-        concatMap((value:string) => this.service.getPage<Tag>("tags", new MatchableFilter(value)))        
+        concatMap((value:string) => this.service.getPage<Tag>("tags", new MatchableFilter(value))
+        .pipe(map(elem => elem.results)))  //map the resulting age directly to the contained results       
       );
       
       this.showCorrespondentSelector = true;
@@ -93,7 +94,13 @@ export class FilterComponent {
       this.filter = this.filterService.loadFilter(this.prefix, new MatchableFilter());
       this.showTagSelector = false;
       this.showTagsSection = false;
+    } else if (this.thePath === "/logs") {
+      this.prefix = "logs";
+      this.filter = this.filterService.loadFilter(this.prefix, new LogFilter());
+      this.showTagSelector = false;
+      this.showTagsSection = false;
     } 
+
 
     for (let f of this.filter.fieldFilters) {
       this.filterForm.addControl(f.field, new FormControl(f.value));
@@ -105,7 +112,6 @@ export class FilterComponent {
       .subscribe(
         filter => {
           this.mergeAndPublish(filter);
-          //this.eventBus.publish("SIDE_MENU");
         }
       )
     

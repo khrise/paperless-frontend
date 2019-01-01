@@ -1,0 +1,19 @@
+@import "../list/list.component.scss";
+
+td.mat-column-time {
+    flex: 1;
+    white-space: nowrap;
+    vertical-align: top;
+    padding-right: .5rem;
+    border: none;
+}
+
+td.mat-column-messages {
+    flex: 4;
+    vertical-align: top;
+    border: none;
+}
+
+tr.mat-row {
+    height: 36px;
+}

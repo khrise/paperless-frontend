@@ -13,6 +13,13 @@ export class Filter {
     public fieldFilters: FilterValue[] = [];
 }
 
+export class LogFilter extends Filter {
+    fieldFilters = [
+        //timeFilter('from'),
+        //timeFilter('to')
+    ];
+}
+
 export class MatchableFilter extends Filter {
     fieldFilters = [
         containsFilter('name'),

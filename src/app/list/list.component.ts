@@ -2,21 +2,23 @@ import { DocumentService } from "../document.service";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { MatDialog, MatTableDataSource, Sort } from "@angular/material";
+import { MatDialog, MatTableDataSource, Sort, PageEvent } from "@angular/material";
 
 import { EnvironmentService } from "../environment.service";
 
 import { EventBusService } from "../event-bus.service";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/layout";
 import { Router } from "@angular/router";
+import { Page } from "../page";
+import { CustomDataSource } from "../paging/custom-data-source";
 
 export class ListComponent<T> {
 
     config: any
 
     list: T[]
-    dataSource: MatTableDataSource<any>
+    dataSource: CustomDataSource<T>
 
     baseUrl: string;
     loading: boolean;
@@ -34,7 +36,7 @@ export class ListComponent<T> {
         protected dialog: MatDialog,
         protected env: EnvironmentService,
         protected eventBus: EventBusService,
-        protected apiPath: String,
+        protected apiPath: string,
         protected breakpointObserver: BreakpointObserver, 
         public router: Router) {
         this.readConfig();
@@ -48,6 +50,10 @@ export class ListComponent<T> {
                     this.cols = 4;
                 }
             });
+
+        this.dataSource = new CustomDataSource(this.service, this.apiPath);
+        this.dataSource.loading$.subscribe(l => this.loading = l);
+        this.dataSource.connect(null).subscribe(res => this.list = res);
     }
 
     readConfig = () => {
@@ -82,17 +88,8 @@ export class ListComponent<T> {
     }
 
     fetch = () => {
-        this.loading = true;
-        if (this.sub) {
-            this.sub.unsubscribe();
-        }
-        this.sub = this.service.getPage<T>(this.apiPath, this.filter, this.sort).subscribe(
-            result => {
-                this.dataSource = new MatTableDataSource(result);
-                this.list = result;
-                this.loading = false;
-            }
-        )
+        this.dataSource.loadEntries(this.filter, this.sort);
+        
     }
 
     sortData(sort: Sort) {
@@ -116,6 +113,11 @@ export class ListComponent<T> {
         }
         this.writeConfig();
     }
+
+
+  onPageEvent(event: PageEvent) {
+    this.dataSource.loadEntries(this.filter, this.sort, event.pageIndex);
+  }
 
 
 
