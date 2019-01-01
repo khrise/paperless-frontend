@@ -2,7 +2,8 @@
   "name": "paperless-frontend",
   "version": "0.1.0",
   "scripts": {
-    "ng": "ng",
+    "gitv": "echo \"// file is generated - do not edit \r\nexport const commitHash=\\\"`git rev-parse --short HEAD`\\\";\" > src/commit.ts",
+    "ng": "yarn run gitv && ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
@@ -39,7 +40,7 @@
     "@angular/language-service": "~7.1.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~8.9.4",
+    "@types/node": "^10.12.18",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

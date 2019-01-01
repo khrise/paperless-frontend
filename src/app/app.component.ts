@@ -4,6 +4,8 @@ import { MatSidenav } from '@angular/material';
 import { EventBusService } from './event-bus.service';
 import * as $ from 'jquery';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { commitHash } from 'src/commit';
+import { EnvironmentService } from './environment.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,9 @@ export class AppComponent implements OnInit, AfterContentInit{
 
   hasBackdrop = false;
   mode = "push";
+
+  commitId = EnvironmentService.commitId;
+  version = EnvironmentService.version;
 
   @ViewChild('sidenav') sidenav: MatSidenav;
 

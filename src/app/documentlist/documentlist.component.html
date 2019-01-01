@@ -16,11 +16,11 @@
       <table class="mat-table tiles-header" *ngIf="mode=='tiles'" matSort (matSortChange)="sortData($event)"
         [matSortActive]="'created'" [matSortStart]="'desc'">
         <tr>
-          <th class="mat-header-cell" mat-sort-header="title" [start]="'asc'">Title</th>
-          <th class="mat-header-cell" mat-sort-header="created" >Created</th>
-          <th class="mat-header-cell" mat-sort-header="modified">Modified</th>
-          <th class="mat-header-cell" mat-sort-header="correspondent__name" [start]="'asc'">Correspondent</th>
-          <th class="mat-header-cell" mat-sort-header="tag_names" [disabled]="true">Tags</th>
+          <th class="mat-header-cell" mat-sort-header="title" [start]="'asc'" i18n="@@header.title">Title</th>
+          <th class="mat-header-cell" mat-sort-header="created" i18n="@@header.created">Created</th>
+          <th class="mat-header-cell" mat-sort-header="modified" i18n="@@header.modified">Modified</th>
+          <th class="mat-header-cell" mat-sort-header="correspondent__name" [start]="'asc'" i18n="@@header.correspondent">Correspondent</th>
+          <th class="mat-header-cell" mat-sort-header="tag_names" [disabled]="true" i18n="@@header.tags">Tags</th>
         </tr>
       </table>
 
