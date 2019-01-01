@@ -12,7 +12,7 @@ addons:
   # chrome: stable
 
 script:
-  - ng build --base-href "https://khrise.github.io/paperless-frontend/"
+  - yarn run ng build --base-href "https://khrise.github.io/paperless-frontend/"
 
 deploy:
   provider: pages
