@@ -20,6 +20,7 @@ export class FilterComponent {
   thePath: string
 
   filter: Filter;
+  prefix: string;
 
   colors = tagColors
 
@@ -58,7 +59,8 @@ export class FilterComponent {
     this.filter = new Filter();
     this.filterForm = this.fb.group({});
     if (this.thePath === "/documents") {
-      this.filter = this.filterService.loadFilter("documents", new DocumentFilter());
+      this.prefix = "documents";
+      this.filter = this.filterService.loadFilter(this.prefix, new DocumentFilter());
       
       this.showTagSelector = true;
       this.showTagsSection = true;
@@ -82,11 +84,13 @@ export class FilterComponent {
       
       this.showCorrespondentSelector = true;
     } else if (this.thePath === "/tags") {
-      this.filter = this.filterService.loadFilter("tags", new MatchableFilter());
+      this.prefix = "tags";
+      this.filter = this.filterService.loadFilter(this.prefix, new MatchableFilter());
       this.showTagSelector = false;
       this.showTagsSection = false;
     } else if (this.thePath === "/correspondents") {
-      this.filter = this.filterService.loadFilter("correspondents", new MatchableFilter());
+      this.prefix = "correspondents";
+      this.filter = this.filterService.loadFilter(this.prefix, new MatchableFilter());
       this.showTagSelector = false;
       this.showTagsSection = false;
     } 
@@ -114,7 +118,7 @@ export class FilterComponent {
         target.value = filter[field];
       }
     }
-    this.filterService.saveFilter("documents", this.filter);
+    this.filterService.saveFilter(this.prefix, this.filter);
     this.eventBus.publish(new FilterEvent(this.filter));
   }
 
