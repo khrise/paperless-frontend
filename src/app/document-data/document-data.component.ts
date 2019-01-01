@@ -16,6 +16,20 @@ export class DocumentDataComponent implements OnInit {
 
   editing: boolean = false
 
+  fields = [
+"title",
+"id",
+"created", 
+"modified",
+"correspondent",
+"tags",
+"file_name",
+"file_type",
+"download_url",
+"thumbnail_url"
+  ];
+
+
   editedField: {name: string, control: any};
   oldVal: any
 
