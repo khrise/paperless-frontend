@@ -17,7 +17,8 @@
         [matSortActive]="'created'" [matSortStart]="'desc'">
         <tr>
           <th class="mat-header-cell" mat-sort-header="title" [start]="'asc'" i18n="@@header.title">Title</th>
-          <th class="mat-header-cell" mat-sort-header="created" i18n="@@header.created">Created</th>
+          <th class="mat-header-cell" mat-sort-header="added" i18n="@@header.added">Added</th>
+          <th class="mat-header-cell" mat-sort-header="created" i18n="@@header.created">Document date</th>
           <th class="mat-header-cell" mat-sort-header="modified" i18n="@@header.modified">Modified</th>
           <th class="mat-header-cell" mat-sort-header="correspondent__name" [start]="'asc'" i18n="@@header.correspondent">Correspondent</th>
           <th class="mat-header-cell" mat-sort-header="tag_names" [disabled]="true" i18n="@@header.tags">Tags</th>
@@ -34,14 +35,18 @@
       <td mat-cell *matCellDef="let element"> {{element.title}} </td>
     </ng-container>
 
-    <!-- Name Column -->
+    <ng-container matColumnDef="added">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Added </th>
+        <td mat-cell *matCellDef="let element"> {{element.added | date}} </td>
+      </ng-container>
+
     <ng-container matColumnDef="created">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Document Date </th>
       <td mat-cell *matCellDef="let element"> {{element.created | date}} </td>
     </ng-container>
 
     <ng-container matColumnDef="modified">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Modified </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last modified </th>
       <td mat-cell *matCellDef="let element"> {{element.modified | date}} </td>
     </ng-container>
 
@@ -128,7 +133,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <mat-paginator [length]="dataSource.count" (page)="onPageEvent($event)"></mat-paginator>
+  <mat-paginator [length]="dataSource.count" (page)="onPageEvent($event)" [pageSize]="pageSize"></mat-paginator>
 </div>
 
 <div class="fade" [ngClass]="{'overlay': loading, 'show': loading}">

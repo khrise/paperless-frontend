@@ -27,7 +27,7 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
 
   @ViewChildren(MovableBackgroundComponent) viewChildren : QueryList<MovableBackgroundComponent>;
 
-  displayedColumns = ["title", "created", "modified", "correspondent__name", "tag_names", "links"];
+  displayedColumns = ["title", "added", "created", "modified", "correspondent__name", "tag_names", "links"];
 
   colors = tagColors;
 

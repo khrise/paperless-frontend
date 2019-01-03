@@ -31,6 +31,8 @@ export class ListComponent<T> {
     cols = 4;
     rowHeight = 250;
 
+    pageSize = 25;
+
     constructor(protected service: DocumentService,
         protected modalService: NgbModal,
         protected dialog: MatDialog,

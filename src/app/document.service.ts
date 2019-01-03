@@ -33,12 +33,13 @@ export class DocumentService {
     return this.getPage<Document>("documents", filter, sort)
   }
 
-  public getPage<T>(path, filter?: Filter, sort?: Sort, pageIndex?: number): Observable<Page<T>> {
+  public getPage<T>(path, filter?: Filter, sort?: Sort, pageIndex?: number, pageSize=25): Observable<Page<T>> {
     let params = this.buildFilter(filter)
     params = this.applySorting(sort, params)
     if (pageIndex && pageIndex > 1) {
       params = params.set("page", pageIndex.toString())
     }
+    params = params.set("page-size", String(pageSize));
     let res = this.http.get(`${this.env.getBaseUrl()}/api/${path}/`, 
       {observe: "response", params: params});
     return res.pipe(map(
