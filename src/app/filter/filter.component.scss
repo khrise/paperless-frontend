@@ -1,11 +1,35 @@
+@import 'colors.scss'; 
+
+* {
+    // color: rgba(0,0,0,.87);
+}
+
 .mat-form-field {
     display: block;
 }
 
 .chip {
-    padding: .5rem;
-    margin: 3px;
-    border-radius: 5px;
-    display: inline;
+    padding: 3px;
+    //margin: 3px;
+    border-radius: 2px;
+    //display: inline;
+}
+
+ul {
+    padding: 0;
+    li {
+        button {
+            font-size: .8rem;
+        }
+        list-style: none;
+        &.active button {
+            font-style: italic;
+            // border-left: 2px solid $primary;
+            color: $primary;
+        } 
+        &.active {
+            border-left: 2px solid $primary;
+        } 
+    }
 }
 

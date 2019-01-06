@@ -1,15 +1,73 @@
 <div class="row">
-    <div>
-        <a mat-icon-button (click)="clear()" title="Clear filter">
-            <i class="material-icons">clear_all</i>
-        </a>
-    </div>
+  <div>
+    <a mat-icon-button (click)="clear()" title="Clear filter">
+      <i class="material-icons">clear_all</i>
+    </a>
+  </div>
 </div>
 <div>
   <form [formGroup]="filterForm" class="filter-form">
-    <mat-form-field class="example-full-width" *ngFor="let elem of filter.fieldFilters">
+    <mat-form-field [floatLabel]="'always'" [ngStyle]="{'font-size.rem': 1.0}" class="example-full-width" *ngFor="let elem of filter.stringFilters">
       <input matInput placeholder="{{elem.field}}" formControlName="{{elem.field}}" value="{{elem.value}}">
     </mat-form-field>
+    <div *ngIf="prefix == 'documents'">
+      <div class="section mb-4">
+        <div class="pt-0 pl-0">
+          <h5 class="small">Tags</h5>
+        </div>
+        <ul>
+          <li [ngClass]="{'active': (!filter.tags__id)}">
+              <a class="btn btn-link btn-sm p-0 pl-2">
+                <span class="chip" (click)="addTag(null)">
+                  All Tags
+                </span>
+              </a>
+          </li>
+          <li *ngFor="let tag of tags | async"
+              [ngClass]="{'active': (filter.tags__id === tag.id)}">
+            <a class="btn btn-link btn-sm p-0 pl-2">
+              <span class="chip" [style.background-color]="colors[tag.colour+1]" (click)="addTag(tag.id)">
+                {{ tag.name }} ({{tag.id}})
+              </span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+      <ng-template ngFor let-field [ngForOf]="['created', 'modified', 'added']">
+        <div class="section mb-4">
+          <div class="pt-0 pl-0">
+            <h5 class="small">{{ field }}</h5>
+
+            <ul class="date-range m-0 p-0">
+              <ng-template ngFor let-range [ngForOf]="['', 'day', 'isoWeek', 'month' ,'year']">
+                <li class="p-0 m-0" 
+                  [ngClass]="{'active': ((range === '' && (! filter.ranges || !filter.ranges[field])) || (filter.ranges && filter.ranges[field] === range))}">
+                  <button class="btn btn-link btn-sm p-0 pl-2 " (click)="filterTimestamp(field, range)">
+                    <!--  <span> -->
+                    {{ range }} range
+                    <!-- </span> -->
+                  </button>
+                </li>
+              </ng-template>
+            </ul>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div *ngIf="prefix == 'logs'">
+      <ng-template ngFor let-field [ngForOf]="['created']">
+        <ul class="date-range">
+          <ng-template ngFor let-range [ngForOf]="['', 'day', 'week', 'month' ,'year']">
+            <li ngClass="{'active': filter.ranges && filter.ranges[field] === range}">
+              <button class="btn btn-link" (click)="filterTimestamp(field, range)">{{ range }}</button>
+            </li>
+          </ng-template>
+        </ul>
+
+      </ng-template>
+    </div>
+
     <!--<div *ngIf="showTagSelector">
         <mat-form-field>
           <input type="text" placeholder="Tag wählen" [formControl]="tagControl" matInput [matAutocomplete]="tagExact">
@@ -24,7 +82,7 @@
           </mat-autocomplete>
 
     </div>-->
-  </form>        
+  </form>
 </div>
 <div>
   <a mat-icon-button (click)="search()" title="search"><i class="material-icons">search</i></a>

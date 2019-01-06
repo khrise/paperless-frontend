@@ -7,8 +7,9 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { DocumentService } from '../document.service';
 import { Tag } from '../tag';
 import { tagColors } from '../colors';
-import { Filter, DocumentFilter, MatchableFilter, LogFilter } from './filter';
+import { Filter, DocumentFilter, MatchableFilter, LogFilter, ltFilter, gtFilter, gteFilter, lteFilter, eqFilter, idFilter } from './filter';
 import { FilterService } from '../filter.service';
+import * as moment from "moment";
 
 @Component({
   selector: 'app-filter',
@@ -26,7 +27,7 @@ export class FilterComponent {
 
   showTagsSection: boolean;
   showTagSelector: boolean;
-  tags: Observable<Tag[]> ;
+  tags: Observable<Tag[]>;
   tagControl: FormControl;
   showCorrespondentSelector: boolean;
 
@@ -36,13 +37,13 @@ export class FilterComponent {
   onFilterChanged: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder,
-    private eventBus: EventBusService, 
+    private eventBus: EventBusService,
     private service: DocumentService,
     router: Router,
     private filterService: FilterService) {
 
-      this.initFromPath();
-    
+    this.initFromPath();
+
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         //this.close();
@@ -61,7 +62,7 @@ export class FilterComponent {
     if (this.thePath === "/documents") {
       this.prefix = "documents";
       this.filter = this.filterService.loadFilter(this.prefix, new DocumentFilter());
-      
+
       this.showTagSelector = true;
       this.showTagsSection = true;
       this.filterForm.addControl("tag_exact", new FormControl(''));
@@ -79,10 +80,10 @@ export class FilterComponent {
         map(value => typeof value === 'string' ? value : value.name),
         distinctUntilChanged(),
         debounceTime(250),
-        concatMap((value:string) => this.service.getPage<Tag>("tags", new MatchableFilter(value))
-        .pipe(map(elem => elem.results)))  //map the resulting age directly to the contained results       
+        concatMap((value: string) => this.service.getPage<Tag>("tags", new MatchableFilter(value))
+          .pipe(map(elem => elem.results)))  //map the resulting age directly to the contained results       
       );
-      
+
       this.showCorrespondentSelector = true;
     } else if (this.thePath === "/tags") {
       this.prefix = "tags";
@@ -99,7 +100,7 @@ export class FilterComponent {
       this.filter = this.filterService.loadFilter(this.prefix, new LogFilter());
       this.showTagSelector = false;
       this.showTagsSection = false;
-    } 
+    }
 
 
     for (let f of this.filter.fieldFilters) {
@@ -114,7 +115,7 @@ export class FilterComponent {
           this.mergeAndPublish(filter);
         }
       )
-    
+
   }
 
   mergeAndPublish(filter: any) {
@@ -124,25 +125,67 @@ export class FilterComponent {
         target.value = filter[field];
       }
     }
+    this.publish()
+  }
+
+  publish = () => {
     this.filterService.saveFilter(this.prefix, this.filter);
     this.eventBus.publish(new FilterEvent(this.filter));
   }
 
   tagDisplayFn = (tag: string | Tag): string => {
-    if (! tag) {
+    if (!tag) {
       return '';
     }
     return typeof tag === 'string' ? tag.substring(tag.lastIndexOf('/')) : tag.name;
   }
 
   clear = () => {
+    this.filter.reset();
+    delete this.filter['ranges'];
+    delete this.filter["tags__id"]
     this.filterForm.reset();
   }
 
   search = () => {
-    
+
+  }
+
+  filterTimestamp(targetField: string, range: timestampRange) {
+    // remove all date filters for the given target field
+    this.filter.fieldFilters = this.filter.fieldFilters.slice()
+      .filter(elem => (elem.field !== targetField));
+
+    let ranges = this.filter['ranges'] || {};
+    if (range) {
+      let from = moment.utc().startOf(range);
+      let to = moment.utc().endOf(range);
+      this.filter.fieldFilters.push(gteFilter(targetField, from.format()));
+      this.filter['ranges'] = ranges;
+      this.filter.fieldFilters.push(lteFilter(targetField, to.format()));
+      ranges[targetField] = range;
+    } else {
+      delete this.filter['ranges'];
+    }
+
+    this.publish();
+  }
+
+  addTag(id) {
+    let fieldName = "tags__id"
+    this.filter.fieldFilters = this.filter.fieldFilters
+      .filter(elem => (elem.field !== fieldName));
+    if (id) {
+      this.filter.fieldFilters.push(idFilter(fieldName, String(id)));
+      this.filter.addCustomField(fieldName, id);
+    } else {
+      this.filter.removeCustomField(fieldName);
+    }
+    this.publish();
   }
 }
+
+type timestampRange = "day" | "week" | "month" | "year";
 
 const replaceFunc = (key, value): boolean => {
   return !!value ? value : undefined

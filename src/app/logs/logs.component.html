@@ -35,7 +35,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [length]="dataSource.count" (page)="onPageEvent($event)"></mat-paginator>
+    <mat-paginator [length]="dataSource.count" (page)="onPageEvent($event)" 
+      [pageSize]="pageSize"></mat-paginator>
 
 </div>
 <div class="fade" [ngClass]="{'overlay': loading, 'show': loading}">

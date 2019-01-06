@@ -11,7 +11,6 @@ import { BasicAuthInterceptor } from './auth-interceptor';
 import { MaterialModule } from './material/material.module';
 import { NgbModule, NgbModalModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { PdfPopoverComponent } from './pdf-popover/pdf-popover.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { DocumentDetailsComponent } from './document-details/document-details.component';
 import { FilterComponent } from './filter/filter.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -60,7 +59,6 @@ import { LogsComponent } from './logs/logs.component';
     MaterialModule,
     NgbModule,
     NgbModalModule,
-    PdfViewerModule,
     FormsModule,
     ReactiveFormsModule,
     LayoutModule,
