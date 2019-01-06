@@ -4,7 +4,6 @@
 /dist
 /tmp
 /out-tsc
-/src/commit.ts
 
 # dependencies
 /node_modules
@@ -38,3 +37,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+src/commit.ts
