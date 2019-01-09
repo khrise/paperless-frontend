@@ -16,6 +16,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { FilterService } from '../filter.service';
 import { DocumentFilter } from '../filter/filter';
+import { CustomDataSource } from '../paging/custom-data-source';
 
 
 @Component({
@@ -49,6 +50,9 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
     }
 
   ngOnInit() {
+    this.dataSource = new CustomDataSource(this.service, this.apiPath);
+    this.dataSource.loading$.subscribe(l => this.loading = l);
+    this.dataSource.connect(null).subscribe(res => this.list = res);
     this.sort = {active: 'created', direction: 'desc'};
     this.filter = this.filterService.loadFilter("documents", new DocumentFilter());
     this.filterSub = this.eventBus.on("FILTER")

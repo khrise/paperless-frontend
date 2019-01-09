@@ -2,7 +2,7 @@ import { DocumentService } from "../document.service";
 
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { MatDialog, MatTableDataSource, Sort, PageEvent } from "@angular/material";
+import { MatDialog, Sort, PageEvent } from "@angular/material";
 
 import { EnvironmentService } from "../environment.service";
 
@@ -10,12 +10,11 @@ import { EventBusService } from "../event-bus.service";
 import { Subscription, Observable } from "rxjs";
 import { BreakpointObserver, Breakpoints, BreakpointState } from "@angular/cdk/layout";
 import { Router } from "@angular/router";
-import { Page } from "../page";
 import { CustomDataSource } from "../paging/custom-data-source";
 
 export class ListComponent<T> {
 
-    protected apiPath: string;
+    public apiPath: string;
 
     config: any
 
@@ -53,10 +52,6 @@ export class ListComponent<T> {
                     this.cols = 4;
                 }
             });
-
-        this.dataSource = new CustomDataSource(this.service, this.apiPath);
-        this.dataSource.loading$.subscribe(l => this.loading = l);
-        this.dataSource.connect(null).subscribe(res => this.list = res);
     }
 
     readConfig = () => {
