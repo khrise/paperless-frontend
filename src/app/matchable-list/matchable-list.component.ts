@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DocumentService } from '../document.service';
 import { Subscription } from 'rxjs';
 import { ListComponent } from '../list/list.component';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EnvironmentService } from '../environment.service';
 import { EventBusService } from '../event-bus.service';
-import { Tag, Matchable } from '../tag';
+import { Matchable } from '../tag';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 import { Page } from '../page';
@@ -27,17 +27,20 @@ export class MatchableListComponent<T extends Matchable> extends ListComponent<T
 
   filterSub: Subscription;
 
+  apiPath: string = "";
+
+  public displayedColumns = ["name", "slug", "match", "matching_algorithm"];
+
   constructor(
-    apiPath: string,
+    
     service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
     env: EnvironmentService, 
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
-    router: Router,
-    public displayedColumns = ["name", "slug", "match", "matching_algorithm"]) {
-        super(service, modalService, dialog, env, eventBus, apiPath, breakpointObserver, router);
+    router: Router) {
+        super(service, modalService, dialog, env, eventBus, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
     }
 

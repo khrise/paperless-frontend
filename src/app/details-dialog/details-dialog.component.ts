@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Inject, ChangeDetectorRef, ViewRef, ViewChild, AfterContentInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Document } from '../document'; 
 
 @Component({
   selector: 'app-details-dialog',

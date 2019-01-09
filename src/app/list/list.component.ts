@@ -15,6 +15,8 @@ import { CustomDataSource } from "../paging/custom-data-source";
 
 export class ListComponent<T> {
 
+    protected apiPath: string;
+
     config: any
 
     list: T[]
@@ -38,7 +40,6 @@ export class ListComponent<T> {
         protected dialog: MatDialog,
         protected env: EnvironmentService,
         protected eventBus: EventBusService,
-        protected apiPath: string,
         protected breakpointObserver: BreakpointObserver, 
         public router: Router) {
         this.readConfig();

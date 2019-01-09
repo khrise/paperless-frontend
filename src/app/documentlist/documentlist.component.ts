@@ -33,6 +33,8 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
 
   filterSub: Subscription;
 
+  apiPath = "documents";
+
   constructor(service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
@@ -41,7 +43,7 @@ export class DocumentlistComponent extends ListComponent<Document> implements On
     breakpointObserver: BreakpointObserver, 
     router: Router,
     private filterService: FilterService) {
-      super(service, modalService, dialog, env, eventBus, "documents", breakpointObserver, router);
+      super(service, modalService, dialog, env, eventBus, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
       
     }

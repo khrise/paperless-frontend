@@ -18,6 +18,8 @@ import { MatchableListComponent } from '../matchable-list/matchable-list.compone
 })
 export class TagListComponent extends MatchableListComponent<Tag> {
 
+  apiPath = "tags";
+
   constructor(service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
@@ -25,7 +27,7 @@ export class TagListComponent extends MatchableListComponent<Tag> {
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
     router: Router) {
-      super("tags", service, modalService, dialog, env, eventBus, breakpointObserver, router);
+      super(service, modalService, dialog, env, eventBus, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
     }
 }

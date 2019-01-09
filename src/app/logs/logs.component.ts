@@ -3,10 +3,8 @@ import { DocumentService } from '../document.service';
 import { LogEntry } from './log';
 import { Filter } from '../filter/filter';
 import { Sort } from '@angular/material/sort';
-import { Observable, Subscription } from 'rxjs';
-import { PageEvent, MatDialog } from '@angular/material';
-import { map, tap } from 'rxjs/operators';
-import { Page } from '../page';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material';
 import { CustomDataSource } from '../paging/custom-data-source';
 import { ListComponent } from '../list/list.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,6 +29,9 @@ export class LogsComponent extends ListComponent<LogEntry>  implements OnInit {
   loading: boolean;
   filterSub: Subscription;
 
+  pageSize = 50;
+  apiPath =  "logs";
+
   constructor(service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
@@ -38,7 +39,7 @@ export class LogsComponent extends ListComponent<LogEntry>  implements OnInit {
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
     router: Router) {
-      super(service, modalService, dialog, env, eventBus, "logs", breakpointObserver, router);
+      super(service, modalService, dialog, env, eventBus, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
     }
 

@@ -16,6 +16,10 @@ import { Router } from '@angular/router';
 })
 export class CorrespondentListComponent extends MatchableListComponent<Correspondent> {
 
+  apiPath = "correspondents";
+
+  public displayedColumns = ["name", "slug"];
+
   constructor(service: DocumentService,
     modalService: NgbModal,
     dialog: MatDialog,
@@ -23,8 +27,7 @@ export class CorrespondentListComponent extends MatchableListComponent<Correspon
     eventBus: EventBusService,
     breakpointObserver: BreakpointObserver,
     router: Router) {
-      super("correspondents", service, modalService, dialog, env, eventBus, breakpointObserver, router,
-      ["name", "slug"]);
+      super(service, modalService, dialog, env, eventBus, breakpointObserver, router);
       this.baseUrl = env.getBaseUrl();
     }
 

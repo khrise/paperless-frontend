@@ -29,6 +29,7 @@ import { SettingsProviderService } from './settings-provider.service';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CorrespondentListComponent } from './correspondent-list/correspondent-list.component';
 import { LogsComponent } from './logs/logs.component';
+import { MatchableListComponent } from './matchable-list/matchable-list.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { LogsComponent } from './logs/logs.component';
     ResolvePipe,
     ResolveConcatPipe,
     MovableBackgroundComponent,
+    MatchableListComponent,
     TagListComponent,
     SettingsComponent,
     CorrespondentListComponent,

@@ -6,7 +6,3 @@ export class Page<T> {
     previous: string;
     results: T[];
 }
-
-export class PaperlessPaginator extends MatPaginator {
-    
-}
