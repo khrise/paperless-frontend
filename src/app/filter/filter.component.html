@@ -7,11 +7,18 @@
 </div>
 <div>
   <form [formGroup]="filterForm" class="filter-form">
-    <mat-form-field [floatLabel]="'always'" [ngStyle]="{'font-size.rem': 1.0}" class="example-full-width" *ngFor="let elem of filter.stringFilters">
-      <input matInput placeholder="{{elem.field}}" formControlName="{{elem.field}}" value="{{elem.value}}">
-    </mat-form-field>
+    <div class="section mt-2 mb-2 pt-2 pb-2" *ngFor="let elem of filter.stringFilters">
+      <mat-form-field 
+        [floatLabel]="'always'" 
+        [ngStyle]="{'font-size.rem': 1.0}" class="example-full-width" 
+        >
+        <mat-label>{{elem.field}}</mat-label>
+        <input matInput formControlName="{{elem.field}}" 
+        value="{{elem.value}}">
+      </mat-form-field>
+    </div>
     <div *ngIf="prefix == 'documents'">
-      <div class="section mb-4">
+      <div class="section mb-2 mt-2 pt-2 pb-2">
         <div class="pt-0 pl-0">
           <h5 class="small">Tags</h5>
         </div>
@@ -35,7 +42,7 @@
         </ul>
       </div>
       <ng-template ngFor let-field [ngForOf]="['created', 'modified', 'added']">
-        <div class="section mb-4">
+        <div class="section mb-2 mt-2 pt-2 pb-2">
           <div class="pt-0 pl-0">
             <h5 class="small">{{ field }}</h5>
 

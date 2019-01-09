@@ -15,6 +15,16 @@
     //display: inline;
 }
 
+div.mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+
+div.section {
+    padding-left: 3px;
+    border: 1px solid rgba(0, 0, 0, .3);
+    border-radius: 3px;
+}
+
 ul {
     padding: 0;
     li {
