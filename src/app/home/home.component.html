@@ -1,14 +1,42 @@
 <div class="container">
-  <div class="row">
-    <div class="col-sm-4">
+  <mat-card>
+    <mat-card-title>
       <a [routerLink]="['/documents']">Documents</a>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
+    </mat-card-title>
+    <mat-card-content>
+      <div *ngIf="docPage$ | async as docPage; else loading">
+        <p>
+          Count: {{ docPage.count }}
+        </p>
+        Last 5 added:
+        <ul>
+          <li *ngFor="let doc of docPage.results">
+            <a [routerLink]="['/documents', doc.id]">
+              {{ doc.title }} (Added: {{doc.added | date: short}})
+            </a>
+          </li>
+        </ul>
+      </div>
+      <ng-template #loading>
+        <mat-spinner [diameter]="16"></mat-spinner>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>
       <a [routerLink]="['/tags']">Tags</a>
-    </div>
-  </div>
+    </mat-card-title>
+    <mat-card-content>
+      <div *ngIf="tagPage$ | async as tagPage; else loading">
+          <p>
+              Count: {{ tagPage.count }}
+            </p>
+      </div>
+      <ng-template #loading>
+        <mat-spinner [diameter]="16"></mat-spinner>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
   <div class="row">
     <div class="col-sm-4">
       <a [routerLink]="['/correspondents']">Correspondents</a>
@@ -25,10 +53,10 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-sm-4">
-        <a [routerLink]="['/settings']">Settings</a>
-      </div>
+    <div class="col-sm-4">
+      <a [routerLink]="['/settings']">Settings</a>
     </div>
+  </div>
 </div>
 <p>
 </p>

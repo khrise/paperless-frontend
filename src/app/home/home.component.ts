@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentService } from '../document.service';
+import { DocumentFilter, MatchableFilter } from '../filter/filter';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  docPage$
+  tagPage$
+
+  constructor(private service: DocumentService) { }
 
   ngOnInit() {
+    this.docPage$ = this.service.getPage("documents",
+      new DocumentFilter(),
+      { active: 'added', direction: "desc" }, 0, 5)
+
+    this.tagPage$ = this.service.getPage("tags",
+      new MatchableFilter(),
+      null, 0, 1)
+
   }
+
+
 
 }
